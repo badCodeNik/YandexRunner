@@ -49,9 +49,9 @@ namespace _project.Scripts.Services.Input
         }
 
 
-        public InputService()
+        public InputService(Signal signal)
         {
-            _signal = ServiceLocator.Instance.GetInstance<Signal>();
+            _signal = signal;
             _input = new PlayerInput();
             _input.Player.PrimaryContact.started += StartTouchPrimary;
             _input.Player.PrimaryContact.canceled += EndTouchPrimary;

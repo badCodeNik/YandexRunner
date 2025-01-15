@@ -1,15 +1,20 @@
-using _project.Scripts.Extentions;
-using _project.Scripts.Game.Infrastructure;
+using _project.Scripts.Tools;
 using UnityEngine;
+using Zenject;
 
 namespace _project.Scripts.Game.GameplayControllers
 {
-    public class CameraController : SignalListener<GameSignals.OnHeroSpawned>
+    public class CameraController : MonoBehaviour
     {
         [SerializeField] private Transform target;
         [SerializeField] private Vector3 offset; 
         [SerializeField] private float smoothing = 5f;
 
+        [Inject]
+        public void Construct(Signal signal)
+        {
+            signal.Subscribe<GameSignals.OnHeroSpawned>(OnSignal);
+        }
         private void LateUpdate()
         {
             if (!target) return;
@@ -23,7 +28,7 @@ namespace _project.Scripts.Game.GameplayControllers
             target = newTarget;
         }
 
-        protected override void OnSignal(GameSignals.OnHeroSpawned data)
+        private void OnSignal(GameSignals.OnHeroSpawned data)
         {
             SetTarget(data.Hero.transform);
         }

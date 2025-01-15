@@ -1,20 +1,25 @@
-using System.Collections;
-using System.Threading.Tasks;
 using _project.Scripts.Game.GameRoot;
 using _project.Scripts.Services;
+using _project.Scripts.Tools;
 using GoogleImporter;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 namespace _project.Scripts.Game.Infrastructure.FSM
 {
     public class InitializeGameState : ILevelState
     {
         private readonly GameStateMachine _stateMachine;
+        private readonly DiContainer _container;
+        private readonly UIRootView _uiRootView;
+        private readonly Signal _signal;
 
-        public InitializeGameState(GameStateMachine stateMachine)
+        public InitializeGameState(GameStateMachine stateMachine, DiContainer container, UIRootView uiRootView)
         {
             _stateMachine = stateMachine;
+            _container = container;
+            _uiRootView = uiRootView;
         }
 
         public void Enter()
@@ -31,26 +36,24 @@ namespace _project.Scripts.Game.Infrastructure.FSM
             _stateMachine.ChangeState<LoadLevelState>();
         }
 
-
         private void InitializeScenes()
         {
-            _stateMachine.UIRootView.ShowLoadingScreen();
-            _stateMachine.UIRootView.ShowMainMenuPanel();
-            _stateMachine.UIRootView.HideLoadingScreen();
+            _uiRootView.ShowLoadingScreen();
+            _uiRootView.ShowMainMenuPanel();
+            _uiRootView.HideLoadingScreen();
         }
 
         private void RegisterGameServices()
         {
-            _stateMachine.ServiceLocator.RegisterInstance(new SceneLoaderService());
-            var resourceLoaderService = new ResourceLoaderService();
-            _stateMachine.ServiceLocator.RegisterInstance(resourceLoaderService);
-            _stateMachine.ServiceLocator.RegisterInstance(new GameFactory(resourceLoaderService));
+            _container.Bind<SceneLoaderService>().AsSingle();
+            _container.Bind<ResourceLoaderService>().AsSingle();
+            _container.Bind<GameFactory>().AsSingle();
         }
 
         private void InitClasses()
         {
-            var gameplayInitializer = new GameplayInitializer(_stateMachine.UIRootView, _stateMachine.Signal);
-            var gameStartController = new GameStarter(_stateMachine.UIRootView, gameplayInitializer);
+            _container.Bind<GameplayInitializer>().AsSingle();
+            _container.Bind<GameStarter>().AsSingle();
         }
 
         public void Exit()

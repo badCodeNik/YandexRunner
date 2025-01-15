@@ -3,22 +3,28 @@ using _project.Scripts.Extentions;
 using _project.Scripts.Game.Infrastructure;
 using _project.Scripts.Tools;
 using UnityEngine;
+using UnityEngine.Timeline;
+using Zenject;
 
 namespace _project.Scripts.Game.GameplayControllers
 {
-    public class QuizController : SignalListener<GameSignals.OnGameStarted, GameSignals.OnGameEnded>
+    public class QuizController : ITickable
     {
         [SerializeField] private float timeBetweenQuizes = 5f;
         private float _timer;
         private bool _isGameActive;
         private Signal _signal;
 
-        private void Start()
+
+        [Inject]
+        public void Construct(Signal signal)
         {
-            _signal = ServiceLocator.Instance.GetInstance<Signal>();
+            _signal = signal;
+            _signal.Subscribe<GameSignals.OnGameStarted>(OnSignal);
+            _signal.Subscribe<GameSignals.OnGameEnded>(OnSignal);
         }
 
-        private void Update()
+        public void Tick()
         {
             if (!_isGameActive) return;
 
@@ -30,17 +36,18 @@ namespace _project.Scripts.Game.GameplayControllers
             }
         }
 
+
         private void ResetTimer()
         {
             _timer = 0;
         }
 
-        protected override void OnSignal(GameSignals.OnGameStarted data)
+        private void OnSignal(GameSignals.OnGameStarted data)
         {
             _isGameActive = true;
         }
 
-        protected override void OnSignal(GameSignals.OnGameEnded data)
+        private void OnSignal(GameSignals.OnGameEnded data)
         {
             _isGameActive = false;
             ResetTimer();

@@ -7,7 +7,7 @@ namespace GoogleImporter
     public class ConfigImportsMenu
     {
         private static string ITEMS_SHEETS_NAME = "LanguageLibrary";
-        private static string CREDENTIALS_PAHTH = "language-runner-20a956f9695d.json";
+        private static string CREDENTIALS_PAHTH = "language-runner-5e4c8f18d410.json";
         private const string SpreadsheetID = "1p6kab7o2S6QUCZwDyqmX9CNdiKn3cHCEUpXTKnuEOr0";
 #if UNITY_EDITOR
         [MenuItem("NikRunner/Import Google Sheets")]

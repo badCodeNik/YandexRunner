@@ -1,14 +1,13 @@
-using _project.Scripts.Extentions;
-using _project.Scripts.Game.Entities.Components;
-using _project.Scripts.Game.Infrastructure;
 using _project.Scripts.GoogleImporter;
+using _project.Scripts.Tools;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace _project.Scripts.Game.GameRoot.UI
 {
-    public class WordChoicePanel : SignalListener<GameSignals.QuizStarted>
+    public class WordChoicePanel : MonoBehaviour
     {
         [SerializeField] private GameObject panel;
         [SerializeField] private Button firstChoice;
@@ -21,6 +20,7 @@ namespace _project.Scripts.Game.GameRoot.UI
         private UISignals.OnTranslationChosen _firstSignal;
         private UISignals.OnTranslationChosen _secondSignal;
         private UISignals.OnTranslationChosen _thirdSignal;
+        private Signal _signal;
 
 
         private void Start()
@@ -30,26 +30,33 @@ namespace _project.Scripts.Game.GameRoot.UI
             thirdChoice.onClick.AddListener(ThirdButtonClicked);
         }
 
+        [Inject]
+        public void Construct(Signal signal)
+        {
+            _signal = signal;
+            _signal.Subscribe<GameSignals.QuizStarted>(OnSignal);
+        }
+
 
         private void FirstButtonClicked()
         {
             panel.SetActive(false);
-            Signal.RegistryRaise(_firstSignal);
+            _signal.RegistryRaise(_firstSignal);
         }
 
         private void SecondButtonClicked()
         {
             panel.SetActive(false);
-            Signal.RegistryRaise(_secondSignal);
+            _signal.RegistryRaise(_secondSignal);
         }
 
         private void ThirdButtonClicked()
         {
             panel.SetActive(false);
-            Signal.RegistryRaise(_thirdSignal);
+            _signal.RegistryRaise(_thirdSignal);
         }
 
-        protected override void OnSignal(GameSignals.QuizStarted data)
+        private void OnSignal(GameSignals.QuizStarted data)
         {
             var combination = ServiceLocator.Instance.GetInstance<Config>().GetRandomCombination();
             term.text = combination.Item1;

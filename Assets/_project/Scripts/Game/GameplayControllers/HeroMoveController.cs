@@ -1,29 +1,37 @@
-using _project.Scripts.Extentions;
 using _project.Scripts.Game.Entities;
-using _project.Scripts.Game.Infrastructure;
 using _project.Scripts.Services.Input;
+using _project.Scripts.Tools;
+using Zenject;
 
 namespace _project.Scripts.Game.GameplayControllers
 {
-    public class HeroMoveController : SignalListener<
-        GameSignals.OnGameStarted,
-        GameSignals.OnGameEnded,
-        GameSignals.OnHeroSpawned>
+    public class HeroMoveController : ITickable
     {
         private Hero _hero;
         private bool _isMoving;
         private Position _position = Position.Middle;
-        
+        private InputService _inputService;
+        private Signal _signal;
 
-        protected override void OnSignal(GameSignals.OnGameStarted data)
+
+        [Inject]
+        public void Construct(InputService inputService, Signal signal)
         {
-            ServiceLocator.Instance.GetInstance<InputService>().EnableInput();
+            _signal = signal;
+            _inputService = inputService;
+            _signal.Subscribe<GameSignals.OnGameEnded>(OnSignal);
+            _signal.Subscribe<GameSignals.OnGameStarted>(OnSignal);
+            _signal.Subscribe<GameSignals.OnHeroSpawned>(OnSignal);
+        }
+        private void OnSignal(GameSignals.OnGameStarted data)
+        {
+            _inputService.EnableInput();
             _isMoving = true;
         }
 
-        protected override void OnSignal(GameSignals.OnGameEnded data) => _isMoving = false;
+        private void OnSignal(GameSignals.OnGameEnded data) => _isMoving = false;
 
-        protected override void OnSignal(GameSignals.OnHeroSpawned data) => _hero = data.Hero;
+        private void OnSignal(GameSignals.OnHeroSpawned data) => _hero = data.Hero;
 
         public void SwipeLeft()
         {
@@ -38,15 +46,7 @@ namespace _project.Scripts.Game.GameplayControllers
             _hero.MoveComponent.MoveRight();
             _position++;
         }
-
-        private void Update()
-        {
-            if(_hero == null) return;
-            if (!_hero.IsInitialized) return;
-            if (_isMoving) _hero.MoveComponent.Move();
-            _hero.JumpComponent.Update();
-        }
-
+        
         public void SwipeUp()
         {
             _hero.JumpComponent.Jump();
@@ -55,6 +55,14 @@ namespace _project.Scripts.Game.GameplayControllers
         public void SwipeDown()
         {
             
+        }
+
+        public void Tick()
+        {
+            if(_hero == null) return;
+            if (!_hero.IsInitialized) return;
+            if (_isMoving) _hero.MoveComponent.Move();
+            _hero.JumpComponent.Update();
         }
     }
 

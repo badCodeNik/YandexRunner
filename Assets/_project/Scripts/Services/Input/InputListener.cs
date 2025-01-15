@@ -1,31 +1,44 @@
 using _project.Scripts.Extentions;
 using _project.Scripts.Game.GameplayControllers;
+using _project.Scripts.Tools;
 using UnityEngine;
+using Zenject;
 
 namespace _project.Scripts.Services.Input
 {
-    public class InputListener : SignalListener<OnSwipeLeft, OnSwipeRight, OnSwipeUp, OnSwipeDown>
+    public class InputListener
     {
-        [SerializeField] private HeroMoveController heroMoveController;
-        protected override void OnSignal(OnSwipeLeft data)
+        private HeroMoveController _heroMoveController;
+        private readonly Signal _signal;
+
+        public InputListener(HeroMoveController heroMoveController, Signal signal)
         {
-            heroMoveController.SwipeLeft();
+            _heroMoveController = heroMoveController;
+            _signal = signal;
+            _signal.Subscribe<OnSwipeDown>(OnSignal);
+            _signal.Subscribe<OnSwipeUp>(OnSignal);
+            _signal.Subscribe<OnSwipeLeft>(OnSignal);
+            _signal.Subscribe<OnSwipeRight>(OnSignal);
         }
 
-        protected override void OnSignal(OnSwipeRight data)
+        private void OnSignal(OnSwipeLeft data)
         {
-            heroMoveController.SwipeRight();
+            _heroMoveController.SwipeLeft();
         }
 
-        protected override void OnSignal(OnSwipeUp data)
+        private void OnSignal(OnSwipeRight data)
         {
-            heroMoveController.SwipeUp();
+            _heroMoveController.SwipeRight();
         }
 
-        protected override void OnSignal(OnSwipeDown data)
+        private void OnSignal(OnSwipeUp data)
         {
-            heroMoveController.SwipeDown();
+            _heroMoveController.SwipeUp();
+        }
 
+        private void OnSignal(OnSwipeDown data)
+        {
+            _heroMoveController.SwipeDown();
         }
     }
 }

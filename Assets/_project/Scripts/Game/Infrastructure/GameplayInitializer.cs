@@ -15,11 +15,11 @@ namespace _project.Scripts.Game.Infrastructure
         private readonly LevelConfig _levelConfig;
         private Hero _hero;
 
-        public GameplayInitializer(UIRootView uiRootView, Signal signal)
+        public GameplayInitializer(UIRootView uiRootView, Signal signal, GameFactory gameFactory)
         {
-            _gameFactory = ServiceLocator.Instance.GetInstance<GameFactory>();
             _uiRootView = uiRootView;
             _signal = signal;
+            _gameFactory = gameFactory;
             _levelConfig = uiRootView.LevelConfig;
         }
 

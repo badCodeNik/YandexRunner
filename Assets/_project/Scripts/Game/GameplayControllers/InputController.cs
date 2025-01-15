@@ -1,27 +1,31 @@
-using System;
 using _project.Scripts.Extentions;
-using _project.Scripts.Game.Entities.Components;
 using _project.Scripts.Game.GameRoot.UI;
-using _project.Scripts.Game.Infrastructure;
 using _project.Scripts.Services.Input;
+using _project.Scripts.Tools;
+using Zenject;
 
 namespace _project.Scripts.Game.GameplayControllers
 {
-    public class InputController : SignalListener<GameSignals.QuizStarted, UISignals.OnTranslationChosen>
+    public class InputController
     {
         private InputService _input;
+        private Signal _signal;
 
-        private void Start()
+        [Inject]
+        public void Construct(Signal signal, InputService inputService)
         {
-            _input = ServiceLocator.Instance.GetInstance<InputService>();
+            _signal = signal;
+            _input = inputService;
+            _signal.Subscribe<GameSignals.QuizStarted>(OnSignal);
+            _signal.Subscribe<UISignals.OnTranslationChosen>(OnSignal);
         }
 
-        protected override void OnSignal(GameSignals.QuizStarted data)
+        private void OnSignal(GameSignals.QuizStarted data)
         {
             _input.DisableInput();
         }
 
-        protected override void OnSignal(UISignals.OnTranslationChosen data)
+        private void OnSignal(UISignals.OnTranslationChosen data)
         {
             _input.EnableInput();
         }
