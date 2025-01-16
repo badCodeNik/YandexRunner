@@ -6,10 +6,6 @@ namespace _project.Scripts.Services
 {
     public class SceneLoaderService
     {
-        public SceneLoaderService()
-        {
-        }
-
         public void LoadScene(string sceneName)
         {
             SceneManager.LoadScene(sceneName);

@@ -8,7 +8,7 @@ namespace _project.Scripts.Game.Infrastructure.FSM
         private readonly SceneLoaderService _sceneLoaderService;
         private QuizController _quizController;
 
-        public LoadLevelState(GameStateMachine stateMachine, SceneLoaderService sceneLoaderService)
+        public LoadLevelState(SceneLoaderService sceneLoaderService)
         {
             _sceneLoaderService = sceneLoaderService;
         }

@@ -10,18 +10,24 @@ namespace _project.Scripts.Game.Infrastructure.FSM
 {
     public class InitializeGameState : ILevelState
     {
-        private readonly GameStateMachine _stateMachine;
+        private GameStateMachine _stateMachine;
         private readonly DiContainer _container;
         private readonly UIRootView _uiRootView;
         private readonly GoogleSheetsImporter _googleSheetsImporter;
-        private readonly Signal _signal;
 
-        public InitializeGameState(GameStateMachine stateMachine, DiContainer container, UIRootView uiRootView, GoogleSheetsImporter googleSheetsImporter)
+        public InitializeGameState(
+            DiContainer container,
+            UIRootView uiRootView,
+            GoogleSheetsImporter googleSheetsImporter)
         {
-            _stateMachine = stateMachine;
             _container = container;
             _uiRootView = uiRootView;
             _googleSheetsImporter = googleSheetsImporter;
+        }
+        
+        public void SetStateMachine(GameStateMachine stateMachine)
+        {
+            _stateMachine = stateMachine;
         }
 
         public void Enter()
@@ -31,9 +37,9 @@ namespace _project.Scripts.Game.Infrastructure.FSM
 
             if (sceneName != Constants.Scenes.BootstrapScene) return;
             ParseGoogleSheet();
-            RegisterGameServices();
+            //RegisterGameServices();
             InitializeScenes();
-            InitClasses();
+            //InitClasses();
             _stateMachine.ChangeState<LoadLevelState>();
         }
 

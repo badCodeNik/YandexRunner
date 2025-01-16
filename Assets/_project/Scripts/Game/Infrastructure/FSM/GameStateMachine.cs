@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using _project.Scripts.Game.Infrastructure.FSM;
-using UnityEngine;
 using Zenject;
 
 public class GameStateMachine
@@ -12,7 +11,6 @@ public class GameStateMachine
 
     public GameStateMachine(DiContainer container)
     {
-        Debug.Log("GameStateMachine");
         _container = container;
 
         _states = new Dictionary<Type, ILevelState>()
@@ -20,6 +18,15 @@ public class GameStateMachine
             [typeof(InitializeGameState)] = _container.Instantiate<InitializeGameState>(),
             [typeof(LoadLevelState)] = _container.Instantiate<LoadLevelState>(),
         };
+
+        // Set the state machine reference after creation
+        foreach (var state in _states.Values)
+        {
+            if (state is InitializeGameState initializeGameState)
+            {
+                initializeGameState.SetStateMachine(this);
+            }
+        }
     }
 
     public void ChangeState<TState>() where TState : ILevelState

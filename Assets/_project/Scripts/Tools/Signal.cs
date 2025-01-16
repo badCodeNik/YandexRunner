@@ -9,7 +9,6 @@ namespace _project.Scripts.Tools
         public Signal(bool isLogsEnable = false)
         {
             IsLogEnabled = isLogsEnable;
-            Debug.Log("kek");
         }
         
         private bool IsLogEnabled { get; set; }
