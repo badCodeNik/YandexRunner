@@ -1,4 +1,5 @@
 using _project.Scripts.Game.Entities;
+using _project.Scripts.GoogleImporter;
 using UnityEngine;
 
 namespace _project.Scripts.Game
@@ -20,5 +21,10 @@ namespace _project.Scripts.Game
         }
         
         public struct QuizStarted { }
+
+        public struct OnConfigUpdated
+        {
+            public Config Config;
+        }
     }
 }

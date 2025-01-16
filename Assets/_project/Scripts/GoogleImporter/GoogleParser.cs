@@ -1,15 +1,19 @@
 ﻿using System;
+using _project.Scripts.Game;
 using _project.Scripts.GoogleImporter;
+using _project.Scripts.Tools;
 using UnityEngine;
 
 namespace GoogleImporter
 {
     public class GoogleParser : IGoogleSheetParser
     {
+        private readonly Signal _signal;
         private readonly Config _currentConfig;
 
-        public GoogleParser(Config config)
+        public GoogleParser(Signal signal, Config config)
         {
+            _signal = signal;
             _currentConfig = config;
         }
 
@@ -45,7 +49,11 @@ namespace GoogleImporter
                 _currentConfig.rightTranslation
             };
             
-            //DependenciesContainer.GameStorage.config = _currentConfig;
+            _signal.RegistryRaise(new GameSignals.OnConfigUpdated
+            {
+                Config = _currentConfig
+            });
+            
             
             var jsonForSaving = JsonUtility.ToJson(_currentConfig);
         }

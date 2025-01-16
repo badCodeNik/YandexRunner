@@ -1,5 +1,4 @@
 using System;
-using _project.Scripts.Game.Infrastructure;
 using _project.Scripts.Tools;
 using UnityEngine;
 using UnityEngine.InputSystem;

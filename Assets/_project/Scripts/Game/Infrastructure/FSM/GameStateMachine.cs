@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _project.Scripts.Game.Infrastructure.FSM;
+using UnityEngine;
 using Zenject;
 
 public class GameStateMachine
@@ -11,6 +12,7 @@ public class GameStateMachine
 
     public GameStateMachine(DiContainer container)
     {
+        Debug.Log("GameStateMachine");
         _container = container;
 
         _states = new Dictionary<Type, ILevelState>()

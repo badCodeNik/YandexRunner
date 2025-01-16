@@ -13,13 +13,15 @@ namespace _project.Scripts.Game.Infrastructure.FSM
         private readonly GameStateMachine _stateMachine;
         private readonly DiContainer _container;
         private readonly UIRootView _uiRootView;
+        private readonly GoogleSheetsImporter _googleSheetsImporter;
         private readonly Signal _signal;
 
-        public InitializeGameState(GameStateMachine stateMachine, DiContainer container, UIRootView uiRootView)
+        public InitializeGameState(GameStateMachine stateMachine, DiContainer container, UIRootView uiRootView, GoogleSheetsImporter googleSheetsImporter)
         {
             _stateMachine = stateMachine;
             _container = container;
             _uiRootView = uiRootView;
+            _googleSheetsImporter = googleSheetsImporter;
         }
 
         public void Enter()
@@ -28,12 +30,16 @@ namespace _project.Scripts.Game.Infrastructure.FSM
             var sceneName = SceneManager.GetActiveScene().name;
 
             if (sceneName != Constants.Scenes.BootstrapScene) return;
-
+            ParseGoogleSheet();
             RegisterGameServices();
             InitializeScenes();
             InitClasses();
-            ConfigImportsMenu.LoadSheetsSettings();
             _stateMachine.ChangeState<LoadLevelState>();
+        }
+
+        private async void ParseGoogleSheet()
+        {
+            await _googleSheetsImporter.DownloadAndParseSheet();
         }
 
         private void InitializeScenes()

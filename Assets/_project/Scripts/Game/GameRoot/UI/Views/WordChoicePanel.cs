@@ -21,6 +21,7 @@ namespace _project.Scripts.Game.GameRoot.UI
         private UISignals.OnTranslationChosen _secondSignal;
         private UISignals.OnTranslationChosen _thirdSignal;
         private Signal _signal;
+        private Config _config;
 
 
         private void Start()
@@ -34,7 +35,13 @@ namespace _project.Scripts.Game.GameRoot.UI
         public void Construct(Signal signal)
         {
             _signal = signal;
+            _signal.Subscribe<GameSignals.OnConfigUpdated>(OnSignal);
             _signal.Subscribe<GameSignals.QuizStarted>(OnSignal);
+        }
+
+        private void OnSignal(GameSignals.OnConfigUpdated data)
+        {
+            _config = data.Config;
         }
 
 
@@ -58,7 +65,7 @@ namespace _project.Scripts.Game.GameRoot.UI
 
         private void OnSignal(GameSignals.QuizStarted data)
         {
-            var combination = ServiceLocator.Instance.GetInstance<Config>().GetRandomCombination();
+            var combination = _config.GetRandomCombination();
             term.text = combination.Item1;
             firstTranslation.text = combination.Item2[0];
 

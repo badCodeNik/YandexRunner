@@ -13,14 +13,20 @@ namespace GoogleImporter
         private readonly SheetsService _service;
         private readonly List<string> _headers = new();
         private readonly string _spreadsheetId;
+        private readonly IGoogleSheetParser _parser;
+        private static string CREDENTIALS_PAHTH = "language-runner-5e4c8f18d410.json";
+        private const string SpreadsheetID = "1p6kab7o2S6QUCZwDyqmX9CNdiKn3cHCEUpXTKnuEOr0";
+        private static string ITEMS_SHEETS_NAME = "LanguageLibrary";
 
-        public GoogleSheetsImporter(string credentialsPath, string spreadsheetId)
+
+        public GoogleSheetsImporter(IGoogleSheetParser parser)
         {
-            _spreadsheetId = spreadsheetId;
+            _spreadsheetId = SpreadsheetID;
+            _parser = parser;
 
             GoogleCredential credential;
             using (var stream =
-                   new System.IO.FileStream(credentialsPath, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                   new System.IO.FileStream(CREDENTIALS_PAHTH, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
                 credential = GoogleCredential.FromStream(stream).CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
             }
@@ -31,11 +37,11 @@ namespace GoogleImporter
             });
         }
 
-        public async Task DownloadAndParseSheet(string sheetName, IGoogleSheetParser parser)
+        public async Task DownloadAndParseSheet()
         {
-            Debug.Log($"Starting downloading sheet (${sheetName})...");
+            Debug.Log($"Starting downloading sheet (${ITEMS_SHEETS_NAME})...");
 
-            var range = $"{sheetName}!A1:Z";
+            var range = $"{ITEMS_SHEETS_NAME}!A1:Z";
             var request = _service.Spreadsheets.Values.Get(_spreadsheetId, range);
 
             ValueRange response;
@@ -52,7 +58,7 @@ namespace GoogleImporter
             if (response != null && response.Values != null)
             {
                 var tableArray = response.Values;
-                Debug.Log($"Sheet downloaded successfully: {sheetName}. Parsing started.");
+                Debug.Log($"Sheet downloaded successfully: {ITEMS_SHEETS_NAME}. Parsing started.");
 
                 var firstRow = tableArray[0];
                 foreach (var cell in firstRow)
@@ -71,7 +77,7 @@ namespace GoogleImporter
                         var cell = row[j];
                         var header = _headers[j];
 
-                        parser.Parse(header, cell.ToString());
+                        _parser.Parse(header, cell.ToString());
                     }
                 }
 

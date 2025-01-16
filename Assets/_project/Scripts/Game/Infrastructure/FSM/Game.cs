@@ -3,7 +3,7 @@ using Zenject;
 
 namespace _project.Scripts.Game.Infrastructure.FSM
 {
-    public class Game : MonoBehaviour
+    public class Game 
     {
         private GameStateMachine _gameStateMachine;
 
@@ -16,7 +16,6 @@ namespace _project.Scripts.Game.Infrastructure.FSM
 
         private void ConfigureGame()
         {
-            DontDestroyOnLoad(gameObject);
             Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             _gameStateMachine.ChangeState<InitializeGameState>();
