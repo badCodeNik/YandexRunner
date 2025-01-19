@@ -1,11 +1,11 @@
 using _project.Scripts.Game.Entities;
 using _project.Scripts.Services.Input;
 using _project.Scripts.Tools;
-using Zenject;
+using UnityEngine;
 
 namespace _project.Scripts.Game.GameplayControllers
 {
-    public class HeroMoveController : ITickable
+    public class HeroMoveController : MonoBehaviour
     {
         private Hero _hero;
         private bool _isMoving;
@@ -13,9 +13,7 @@ namespace _project.Scripts.Game.GameplayControllers
         private InputService _inputService;
         private Signal _signal;
 
-
-        [Inject]
-        public void Construct(InputService inputService, Signal signal)
+        public void Initialize(InputService inputService, Signal signal)
         {
             _signal = signal;
             _inputService = inputService;
@@ -23,6 +21,7 @@ namespace _project.Scripts.Game.GameplayControllers
             _signal.Subscribe<GameSignals.OnGameStarted>(OnSignal);
             _signal.Subscribe<GameSignals.OnHeroSpawned>(OnSignal);
         }
+
         private void OnSignal(GameSignals.OnGameStarted data)
         {
             _inputService.EnableInput();
@@ -57,7 +56,7 @@ namespace _project.Scripts.Game.GameplayControllers
             
         }
 
-        public void Tick()
+        private void Update()
         {
             if(_hero == null) return;
             if (!_hero.IsInitialized) return;

@@ -1,41 +1,34 @@
 using System;
 using System.Collections.Generic;
-using _project.Scripts.Game.Infrastructure.FSM;
-using Zenject;
+using _project.Scripts.Tools;
 
-public class GameStateMachine
+namespace _project.Scripts.Game.Infrastructure.FSM
 {
-    private readonly DiContainer _container;
-    private readonly Dictionary<Type, ILevelState> _states = new();
-    private ILevelState _currentState;
-
-    public GameStateMachine(DiContainer container)
+    public class GameStateMachine
     {
-        _container = container;
+        public Signal Signal { get; }
+        private readonly Dictionary<Type, ILevelState> _states = new();
+        private ILevelState _currentState;
 
-        _states = new Dictionary<Type, ILevelState>()
+        public GameStateMachine(Signal signal)
         {
-            [typeof(InitializeGameState)] = _container.Instantiate<InitializeGameState>(),
-            [typeof(LoadLevelState)] = _container.Instantiate<LoadLevelState>(),
-        };
-
-        // Set the state machine reference after creation
-        foreach (var state in _states.Values)
-        {
-            if (state is InitializeGameState initializeGameState)
+            Signal = signal;
+            _states = new Dictionary<Type, ILevelState>
             {
-                initializeGameState.SetStateMachine(this);
+                [typeof(InitializeGameState)] = new InitializeGameState(this),
+                [typeof(LoadLevelState)] = new LoadLevelState(),
+            };
+        }
+
+        public void ChangeState<TState>() where TState : ILevelState
+        {
+            if (_states.TryGetValue(typeof(TState), out var state))
+            {
+                _currentState?.Exit();
+                _currentState = state;
+                _currentState.Enter();
             }
         }
-    }
 
-    public void ChangeState<TState>() where TState : ILevelState
-    {
-        if (_states.TryGetValue(typeof(TState), out var state))
-        {
-            _currentState?.Exit();
-            _currentState = state;
-            _currentState.Enter();
-        }
     }
 }

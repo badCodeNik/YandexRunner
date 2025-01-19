@@ -1,8 +1,5 @@
-using _project.Scripts.Extentions;
 using _project.Scripts.Game.GameplayControllers;
 using _project.Scripts.Tools;
-using UnityEngine;
-using Zenject;
 
 namespace _project.Scripts.Services.Input
 {

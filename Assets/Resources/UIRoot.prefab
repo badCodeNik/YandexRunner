@@ -1335,8 +1335,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingScreen: {fileID: 928895008935264490}
-  mainMenuView: {fileID: 5151262343889089626}
+  mainMenuView: {fileID: 9216465523920764363}
   tapPanelView: {fileID: 5658861315242900795}
+  losePanelView: {fileID: 0}
+  winPanelView: {fileID: 0}
   wordChoicePanel: {fileID: 2643369196555224916}
   levelConfig: {fileID: 11400000, guid: c2d7f8bb55e0a664d9c6157e815bf411, type: 2}
 --- !u!114 &2643369196555224916
@@ -2556,7 +2558,7 @@ GameObject:
   - component: {fileID: 4644646580405031691}
   - component: {fileID: 4064460256267902019}
   - component: {fileID: 8817073761697940372}
-  - component: {fileID: 5151262343889089626}
+  - component: {fileID: 9216465523920764363}
   m_Layer: 0
   m_Name: MainMenu
   m_TagString: Untagged
@@ -2623,7 +2625,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5151262343889089626
+--- !u!114 &9216465523920764363
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,11 +1,13 @@
 using _project.Scripts.Game.GameRoot;
+using _project.Scripts.Services;
 
 namespace _project.Scripts.Game.Infrastructure
 {
     public class GameStarter
     {
-        public GameStarter(UIRootView uiRootView, GameplayInitializer gameplayInitializer)
+        public GameStarter(GameplayInitializer gameplayInitializer)
         {
+            var uiRootView = AllServices.Container.Single<UIRootView>();
             uiRootView.MainMenuView.StartGameButton.onClick.AddListener(gameplayInitializer.StartGameplay);
             //uiRootView.LosePanelView.MainMenuButton.onClick.AddListener();
             //uiRootView.LosePanelView.RestartLevelButton.onClick.AddListener();
@@ -13,5 +15,4 @@ namespace _project.Scripts.Game.Infrastructure
             //uiRootView.WinPanelView.NextLevelButton.onClick.AddListener();
         }
     }
-    
 }

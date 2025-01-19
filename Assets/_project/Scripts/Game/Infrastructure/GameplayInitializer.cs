@@ -1,4 +1,3 @@
-using _project.Scripts.Extentions;
 using _project.Scripts.Game.Configs;
 using _project.Scripts.Game.Entities;
 using _project.Scripts.Game.GameRoot;
@@ -15,12 +14,12 @@ namespace _project.Scripts.Game.Infrastructure
         private readonly LevelConfig _levelConfig;
         private Hero _hero;
 
-        public GameplayInitializer(UIRootView uiRootView, Signal signal, GameFactory gameFactory)
+        public GameplayInitializer()
         {
-            _uiRootView = uiRootView;
-            _signal = signal;
-            _gameFactory = gameFactory;
-            _levelConfig = uiRootView.LevelConfig;
+            _uiRootView = AllServices.Container.Single<UIRootView>();
+            _signal = AllServices.Container.Single<Signal>();
+            _gameFactory = AllServices.Container.Single<GameFactory>();
+            _levelConfig = _uiRootView.LevelConfig;
         }
 
         public void StartGameplay()

@@ -8,7 +8,6 @@ namespace _project.Scripts.Game.Configs
     {
         [SerializeField] private Transform levelHeroSpawnPoint;
         [SerializeField] private Transform levelMonsterSpawnPoint;
-        //[SerializeField] private int gateNumber;
         [SerializeField] private GameObject plane;
 
         public Transform LevelHeroSpawnPoint => levelHeroSpawnPoint;
@@ -16,6 +15,5 @@ namespace _project.Scripts.Game.Configs
 
         public GameObject Plane => plane;
 
-        //public int GateNumber => gateNumber;
     }
 }

@@ -8,7 +8,9 @@ namespace _project.Scripts.Services
 
         public GameFactory(ResourceLoaderService resourceLoaderService)
         {
+            Debug.Log("GameFactory before injecting");
             _resourceLoaderService = resourceLoaderService;
+            Debug.Log("GameFactory");
         }
         
         public GameObject CreateGameObject(string path)

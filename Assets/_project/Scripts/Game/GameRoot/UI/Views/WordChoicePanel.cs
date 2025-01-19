@@ -3,9 +3,8 @@ using _project.Scripts.Tools;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
-namespace _project.Scripts.Game.GameRoot.UI
+namespace _project.Scripts.Game.GameRoot.UI.Views
 {
     public class WordChoicePanel : MonoBehaviour
     {
@@ -31,8 +30,7 @@ namespace _project.Scripts.Game.GameRoot.UI
             thirdChoice.onClick.AddListener(ThirdButtonClicked);
         }
 
-        [Inject]
-        public void Construct(Signal signal)
+        public void Initialize(Signal signal)
         {
             _signal = signal;
             _signal.Subscribe<GameSignals.OnConfigUpdated>(OnSignal);

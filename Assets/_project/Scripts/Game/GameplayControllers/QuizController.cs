@@ -1,37 +1,30 @@
-using System;
-using _project.Scripts.Extentions;
-using _project.Scripts.Game.Infrastructure;
 using _project.Scripts.Tools;
 using UnityEngine;
-using UnityEngine.Timeline;
-using Zenject;
 
 namespace _project.Scripts.Game.GameplayControllers
 {
-    public class QuizController : ITickable
+    public class QuizController : MonoBehaviour
     {
-        [SerializeField] private float timeBetweenQuizes = 5f;
+        private const float TimeBetweenQuizes = 5f;
         private float _timer;
         private bool _isGameActive;
         private Signal _signal;
-
-
-        [Inject]
-        public void Construct(Signal signal)
+        
+        public void Initialize(Signal signal)
         {
             _signal = signal;
             _signal.Subscribe<GameSignals.OnGameStarted>(OnSignal);
             _signal.Subscribe<GameSignals.OnGameEnded>(OnSignal);
         }
 
-        public void Tick()
+        private void Update()
         {
             if (!_isGameActive) return;
 
             _timer += Time.deltaTime;
-            if (_timer >= timeBetweenQuizes)
+            if (_timer >= TimeBetweenQuizes)
             {
-                _timer -= timeBetweenQuizes;
+                _timer -= TimeBetweenQuizes;
                 _signal.RegistryRaise(new GameSignals.QuizStarted());
             }
         }

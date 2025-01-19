@@ -1,11 +1,16 @@
 using System;
 using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace _project.Scripts.Services
 {
     public class SceneLoaderService
     {
+        public SceneLoaderService()
+        {
+            Debug.Log("SceneLoaderService");
+        }
         public void LoadScene(string sceneName)
         {
             SceneManager.LoadScene(sceneName);

@@ -1,17 +1,15 @@
 using _project.Scripts.Tools;
 using UnityEngine;
-using Zenject;
 
 namespace _project.Scripts.Game.GameplayControllers
 {
     public class CameraController : MonoBehaviour
     {
         [SerializeField] private Transform target;
-        [SerializeField] private Vector3 offset; 
-        [SerializeField] private float smoothing = 5f;
+        private const float Smoothing = 5f;
+        private readonly Vector3 offset = new(0,6,-8);
 
-        [Inject]
-        public void Construct(Signal signal)
+        public void Initialize(Signal signal)
         {
             signal.Subscribe<GameSignals.OnHeroSpawned>(OnSignal);
         }
@@ -20,7 +18,7 @@ namespace _project.Scripts.Game.GameplayControllers
             if (!target) return;
         
             var desiredPosition = target.position + offset;
-            transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothing * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, desiredPosition, Smoothing * Time.deltaTime);
         }
 
         private void SetTarget(Transform newTarget)
