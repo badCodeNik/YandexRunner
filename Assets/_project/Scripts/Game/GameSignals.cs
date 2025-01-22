@@ -1,6 +1,6 @@
 using System;
+using _project.Scripts.Game.Configs;
 using _project.Scripts.Game.Entities;
-using _project.Scripts.GoogleImporter;
 using UnityEngine;
 
 namespace _project.Scripts.Game
@@ -13,7 +13,7 @@ namespace _project.Scripts.Game
 
         public struct OnGameEnded
         {
-            public bool hasWon;
+            public bool HasWon;
         }
 
         public struct OnHeroSpawned
@@ -25,7 +25,7 @@ namespace _project.Scripts.Game
 
         public struct OnConfigUpdated
         {
-            public Config Config;
+            public WordConfig Config;
         }
 
         public struct OnTriggerEntered

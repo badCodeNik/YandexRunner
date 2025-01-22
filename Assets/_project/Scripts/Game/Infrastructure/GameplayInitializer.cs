@@ -19,12 +19,13 @@ namespace _project.Scripts.Game.Infrastructure
             _uiRootView = AllServices.Container.Single<UIRootView>();
             _signal = AllServices.Container.Single<Signal>();
             _gameFactory = AllServices.Container.Single<GameFactory>();
-            _levelConfig = _uiRootView.LevelConfig;
+            _levelConfig = AllServices.Container.Single<LevelConfig>();
         }
 
         public void StartGameplay()
         {
             _uiRootView.HideMainMenuPanel();
+            _uiRootView.ActivateScore();
             ActivateTapPanel();
             SpawnHero();
         }

@@ -1,6 +1,7 @@
 using _project.Scripts.Game.GameplayControllers;
 using _project.Scripts.Game.GameRoot;
 using _project.Scripts.Services;
+using _project.Scripts.Services.Services;
 using _project.Scripts.Tools;
 
 namespace _project.Scripts.Game.Infrastructure.FSM
@@ -24,8 +25,9 @@ namespace _project.Scripts.Game.Infrastructure.FSM
         private void InitControllers()
         {
             var chosenWordController = new ChosenWordController();
-            chosenWordController.Initialize(AllServices.Container.Single<Signal>());
-            AllServices.Container.RegisterSingle(chosenWordController);
+            var signal = AllServices.Container.Single<Signal>();
+            chosenWordController.Initialize(signal);
+            ScoreService.Initialize(signal);
         }
 
 

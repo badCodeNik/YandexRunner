@@ -1,4 +1,5 @@
-﻿using _project.Scripts.Game.GameplayControllers;
+﻿using _project.Scripts.Game.Configs;
+using _project.Scripts.Game.GameplayControllers;
 using _project.Scripts.Game.GameRoot;
 using _project.Scripts.Game.Infrastructure.FSM;
 using _project.Scripts.Tools;

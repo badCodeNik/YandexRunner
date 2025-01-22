@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using _project.Scripts.Extentions;
+using _project.Scripts.Services;
+using UnityEngine;
 
-namespace _project.Scripts.GoogleImporter
+namespace _project.Scripts.Game.Configs
 {
-    [Serializable]
-    public class Config
+    [CreateAssetMenu(fileName = "WordConfig", menuName = "Configs/WordConfig")]
+    public class WordConfig : Config
     {
         public string term;
         public string firstTranslation;
@@ -18,6 +19,11 @@ namespace _project.Scripts.GoogleImporter
         {
             var random = LanguageLibrary.PopRandom();
             return (random.Key, random.Value);
+        }
+
+        public override void Initialize()
+        {
+            AllServices.Container.RegisterSingle(this);
         }
     }
 }

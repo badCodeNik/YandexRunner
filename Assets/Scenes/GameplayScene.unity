@@ -580,6 +580,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraController: {fileID: 1089043393}
+  configs:
+  - {fileID: 11400000, guid: 58e0a5cf04f023c4eabb118a2e3d3ab2, type: 2}
+  - {fileID: 11400000, guid: c2d7f8bb55e0a664d9c6157e815bf411, type: 2}
+  - {fileID: 11400000, guid: a5f337a5b5f6ab84184dbdc4b9822c6f, type: 2}
 --- !u!4 &1335000011
 Transform:
   m_ObjectHideFlags: 0

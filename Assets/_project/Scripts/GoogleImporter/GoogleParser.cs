@@ -1,61 +1,63 @@
 ﻿using System;
 using _project.Scripts.Game;
-using _project.Scripts.GoogleImporter;
+using _project.Scripts.Game.Configs;
+using _project.Scripts.Services;
 using _project.Scripts.Tools;
+using GoogleImporter;
 using UnityEngine;
 
-namespace GoogleImporter
+namespace _project.Scripts.GoogleImporter
 {
     public class GoogleParser : IGoogleSheetParser
     {
         private readonly Signal _signal;
-        private readonly Config _currentConfig;
+        private WordConfig _currentWordConfig;
 
-        public GoogleParser(Signal signal, Config config)
+        public GoogleParser(Signal signal)
         {
             _signal = signal;
-            _currentConfig = config;
         }
 
         public void Parse(string header, string token)
         {
+            _currentWordConfig = AllServices.Container.Single<WordConfig>();
             switch (header)
             {
                 case "Term":
-                    _currentConfig.term = token;
+                    _currentWordConfig.term = token;
                     break;
                 case "FirstTranslation":
-                    _currentConfig.firstTranslation = token;
+                    _currentWordConfig.firstTranslation = token;
                     break;
                 case "SecondTranslation":
-                    _currentConfig.secondTranslation = token;
+                    _currentWordConfig.secondTranslation = token;
                     break;
                 case "ThirdTranslation":
-                    _currentConfig.thirdTranslation = token;
+                    _currentWordConfig.thirdTranslation = token;
                     break;
                 case "RightTranslation":
-                    _currentConfig.rightTranslation = token;
+                    _currentWordConfig.rightTranslation = token;
                     break;
 
                 default:
                     throw new Exception($"Invalid header : {header}");
             }
 
-            _currentConfig.LanguageLibrary[_currentConfig.term] = new[]
+            _currentWordConfig.LanguageLibrary[_currentWordConfig.term] = new[]
             {
-                _currentConfig.firstTranslation,
-                _currentConfig.secondTranslation,
-                _currentConfig.thirdTranslation,
-                _currentConfig.rightTranslation
+                _currentWordConfig.firstTranslation,
+                _currentWordConfig.secondTranslation,
+                _currentWordConfig.thirdTranslation,
+                _currentWordConfig.rightTranslation
             };
             
             _signal.RegistryRaise(new GameSignals.OnConfigUpdated
             {
-                Config = _currentConfig
+                Config = _currentWordConfig
             });
             
             
-            var jsonForSaving = JsonUtility.ToJson(_currentConfig);
+            var jsonForSaving = JsonUtility.ToJson(_currentWordConfig);
         }
     }
 }

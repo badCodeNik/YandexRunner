@@ -1,4 +1,4 @@
-using _project.Scripts.GoogleImporter;
+using _project.Scripts.Game.Configs;
 using _project.Scripts.Tools;
 using TMPro;
 using UnityEngine;
@@ -20,7 +20,7 @@ namespace _project.Scripts.Game.GameRoot.UI.Views
         private UISignals.OnTranslationChosen _secondSignal;
         private UISignals.OnTranslationChosen _thirdSignal;
         private Signal _signal;
-        private Config _config;
+        private WordConfig _wordConfig;
 
 
         private void Start()
@@ -39,7 +39,7 @@ namespace _project.Scripts.Game.GameRoot.UI.Views
 
         private void OnSignal(GameSignals.OnConfigUpdated data)
         {
-            _config = data.Config;
+            _wordConfig = data.Config;
         }
 
 
@@ -63,7 +63,7 @@ namespace _project.Scripts.Game.GameRoot.UI.Views
 
         private void OnSignal(GameSignals.QuizStarted data)
         {
-            var combination = _config.GetRandomCombination();
+            var combination = _wordConfig.GetRandomCombination();
             term.text = combination.Item1;
             firstTranslation.text = combination.Item2[0];
 

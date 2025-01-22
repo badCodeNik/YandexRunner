@@ -14,7 +14,7 @@ namespace _project.Scripts.Game.Entities.Components
 
         public void Collide(Collider other)
         {
-            if(other.CompareTag("Finish")) _signal.RegistryRaise(new GameSignals.OnGameEnded { hasWon = true });
+            if(other.CompareTag("Finish")) _signal.RegistryRaise(new GameSignals.OnGameEnded { HasWon = true });
         }
     }
 }

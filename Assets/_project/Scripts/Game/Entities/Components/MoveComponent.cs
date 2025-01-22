@@ -1,4 +1,5 @@
 using System;
+using _project.Scripts.Services.Services;
 using UnityEngine;
 
 namespace _project.Scripts.Game.Entities.Components
@@ -19,6 +20,8 @@ namespace _project.Scripts.Game.Entities.Components
         private Vector3 _initialPosition;
         private bool _isShifting = false;
 
+        public bool IsMoving { get; private set; }
+
         public MoveComponent(Transform heroRoot, AnimationHandler animationHandler)
         {
             _heroRoot = heroRoot;
@@ -27,8 +30,9 @@ namespace _project.Scripts.Game.Entities.Components
 
         public void Move()
         {
+            IsMoving = true;
             _heroRoot.position += Vector3.forward * forwardSpeed * Time.deltaTime;
-
+            ScoreService.CountScore(forwardSpeed * Time.deltaTime);
             if (forwardSpeed < 5) _animationHandler.PlayWalk();
             else _animationHandler.PlayRun();
 
