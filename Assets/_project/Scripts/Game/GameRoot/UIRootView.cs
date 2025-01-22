@@ -33,6 +33,7 @@ namespace _project.Scripts.Game.GameRoot
         public void Initialize(Signal signal)
         {
             _signal = signal;
+            wordChoicePanel.Initialize(_signal);
         }
 
         #region WinPanel

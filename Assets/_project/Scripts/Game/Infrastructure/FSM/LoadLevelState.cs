@@ -3,6 +3,7 @@ using _project.Scripts.Game.GameRoot;
 using _project.Scripts.Services;
 using _project.Scripts.Services.Services;
 using _project.Scripts.Tools;
+using Unity.VisualScripting;
 
 namespace _project.Scripts.Game.Infrastructure.FSM
 {
@@ -25,6 +26,8 @@ namespace _project.Scripts.Game.Infrastructure.FSM
         private void InitControllers()
         {
             var chosenWordController = new ChosenWordController();
+            var quizController = AllServices.Container.Single<CompositionRoot>().AddComponent<QuizController>();
+            quizController.Initialize();
             var signal = AllServices.Container.Single<Signal>();
             chosenWordController.Initialize(signal);
             ScoreService.Initialize(signal);

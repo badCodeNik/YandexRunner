@@ -1,3 +1,5 @@
+using _project.Scripts.Game.GameRoot.UI;
+using _project.Scripts.Services;
 using _project.Scripts.Tools;
 using UnityEngine;
 
@@ -5,26 +7,39 @@ namespace _project.Scripts.Game.GameplayControllers
 {
     public class QuizController : MonoBehaviour
     {
-        private const float TimeBetweenQuizes = 5f;
+        private const float TimeGapBetweenQuizes = 10f;
+        private float timeToNextQuiz;
         private float _timer;
         private bool _isGameActive;
         private Signal _signal;
-        
-        public void Initialize(Signal signal)
+        private bool _isShowing;
+
+        public void Initialize()
         {
-            _signal = signal;
+            _signal = AllServices.Container.Single<Signal>();
             _signal.Subscribe<GameSignals.OnGameStarted>(OnSignal);
             _signal.Subscribe<GameSignals.OnGameEnded>(OnSignal);
+            _signal.Subscribe<UISignals.OnTranslationChosen>(OnSignal);
+            timeToNextQuiz = Random.Range(0, TimeGapBetweenQuizes);
+        }
+
+        private void OnSignal(UISignals.OnTranslationChosen data)
+        {
+            _isShowing = false;
         }
 
         private void Update()
         {
             if (!_isGameActive) return;
 
+            if (_isShowing) return;
             _timer += Time.deltaTime;
-            if (_timer >= TimeBetweenQuizes)
+            
+            if (_timer >= timeToNextQuiz)
             {
-                _timer -= TimeBetweenQuizes;
+                timeToNextQuiz = Random.Range(0, TimeGapBetweenQuizes);
+                _timer -= timeToNextQuiz;
+                _isShowing = true;
                 _signal.RegistryRaise(new GameSignals.QuizStarted());
             }
         }

@@ -52,6 +52,5 @@ namespace _project.Scripts.Game.Infrastructure
                 Hero = _hero
             });
         }
-        
     }
 }
