@@ -17,6 +17,7 @@ namespace _project.Scripts.Game.Entities.Components
         {
             if (other.CompareTag("Finish")) _signal.RegistryRaise(new GameSignals.OnGameEnded { HasWon = true });
             
+            //TODO : нужно пофиксить коллайдер и переставить скрипт на дочерний объект
             if (other.TryGetComponent<Obstacle>(out var obstacle))
             {
                 _signal.RegistryRaise(new GameSignals.OnGameEnded { HasWon = false });
