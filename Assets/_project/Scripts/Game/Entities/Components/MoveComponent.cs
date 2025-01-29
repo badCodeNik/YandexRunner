@@ -13,12 +13,17 @@ namespace _project.Scripts.Game.Entities.Components
         [SerializeField] private float lateralSpeed = 15f;
         [SerializeField] private float topSpeed;
         [SerializeField] private float minSpeed;
-        private bool _isMovingLeft;
-        private bool _isMovingRight;
-        private const float ShiftDistance = 3.8f;
-        private float _movedDistance;
-        private Vector3 _initialPosition;
-        private bool _isShifting = false;
+
+        private enum MovementState
+        {
+            None,
+            Left,
+            Right,
+            Center
+        }
+
+        private MovementState _currentState = MovementState.None;
+        private float _desiredX;
 
         public bool IsMoving { get; private set; }
 
@@ -33,56 +38,64 @@ namespace _project.Scripts.Game.Entities.Components
             IsMoving = true;
             _heroRoot.position += Vector3.forward * forwardSpeed * Time.deltaTime;
             ScoreService.CountScore(forwardSpeed * Time.deltaTime);
+
             if (forwardSpeed < 5) _animationHandler.PlayWalk();
             else _animationHandler.PlayRun();
 
-            if (!_isShifting) return;
+            if (_currentState == MovementState.None) return;
 
-            if (_isMovingLeft)
+            UpdateLateralMovement();
+        }
+
+        private void UpdateLateralMovement()
+        {
+            float direction = 0;
+
+            switch (_currentState)
             {
-                _heroRoot.position += Vector3.left * lateralSpeed * Time.deltaTime;
-                _movedDistance += lateralSpeed * Time.deltaTime;
+                case MovementState.Left:
+                    _desiredX = -4;
+                    direction = -1;
+                    break;
 
-                if (_movedDistance >= ShiftDistance)
-                {
-                    StopShifting();
-                }
+                case MovementState.Right:
+                    _desiredX = 4;
+                    direction = 1;
+                    break;
+
+                case MovementState.Center:
+                    _desiredX = 0;
+                    direction = Mathf.Sign(_desiredX - _heroRoot.position.x);
+                    break;
             }
-            else if (_isMovingRight)
-            {
-                _heroRoot.position += Vector3.right * lateralSpeed * Time.deltaTime;
-                _movedDistance += lateralSpeed * Time.deltaTime;
 
-                if (_movedDistance >= ShiftDistance)
-                {
-                    StopShifting();
-                }
+            _heroRoot.position += new Vector3(direction, 0, 0) * lateralSpeed * Time.deltaTime;
+
+            if (Mathf.Abs(_heroRoot.position.x - _desiredX) < 0.1f)
+            {
+                StopShifting();
+                _heroRoot.position = new Vector3(_desiredX, _heroRoot.position.y, _heroRoot.position.z);
             }
         }
 
-        public void MoveLeft()
+        public void MoveToLeft()
         {
-            _initialPosition = _heroRoot.position;
-            _isMovingLeft = true;
-            _isMovingRight = false;
-            _isShifting = true;
-            _movedDistance = 0f;
+            _currentState = MovementState.Left;
         }
 
-        public void MoveRight()
+        public void MoveToRight()
         {
-            _initialPosition = _heroRoot.position;
-            _isMovingRight = true;
-            _isMovingLeft = false;
-            _isShifting = true;
-            _movedDistance = 0f;
+            _currentState = MovementState.Right;
+        }
+
+        public void MoveToCenter()
+        {
+            _currentState = MovementState.Center;
         }
 
         private void StopShifting()
         {
-            _isShifting = false;
-            _isMovingLeft = false;
-            _isMovingRight = false;
+            _currentState = MovementState.None;
         }
 
         public void SetSpeed(float newForwardSpeed)

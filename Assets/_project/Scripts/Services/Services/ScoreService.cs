@@ -2,7 +2,6 @@ using _project.Scripts.Extentions;
 using _project.Scripts.Game;
 using _project.Scripts.Game.Configs;
 using _project.Scripts.Tools;
-using UnityEngine;
 
 namespace _project.Scripts.Services.Services
 {

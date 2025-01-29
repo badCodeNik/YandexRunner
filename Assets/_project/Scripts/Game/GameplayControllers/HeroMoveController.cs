@@ -35,17 +35,29 @@ namespace _project.Scripts.Game.GameplayControllers
         public void SwipeLeft()
         {
             if (_position == Position.Left) return;
-            _hero.MoveComponent.MoveLeft();
+            if (_position == Position.Right)
+            {
+                _hero.MoveComponent.MoveToCenter();
+                _position = Position.Middle;
+                return;
+            }
+            _hero.MoveComponent.MoveToLeft();
             _position--;
         }
 
         public void SwipeRight()
         {
             if (_position == Position.Right) return;
-            _hero.MoveComponent.MoveRight();
+            if (_position == Position.Left)
+            {
+                _hero.MoveComponent.MoveToCenter();
+                _position = Position.Middle;
+                return;
+            }
+            _hero.MoveComponent.MoveToRight();
             _position++;
         }
-        
+
         public void SwipeUp()
         {
             _hero.JumpComponent.Jump();
@@ -53,13 +65,12 @@ namespace _project.Scripts.Game.GameplayControllers
 
         public void SwipeDown()
         {
-            
+            // Implement if needed
         }
 
         private void Update()
         {
-            if(_hero == null) return;
-            if (!_hero.IsInitialized) return;
+            if (_hero == null || !_hero.IsInitialized) return;
             if (_isMoving) _hero.MoveComponent.Move();
             _hero.JumpComponent.Update();
         }
