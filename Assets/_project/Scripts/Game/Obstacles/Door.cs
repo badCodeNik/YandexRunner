@@ -11,7 +11,7 @@ namespace _project.Scripts.Game.Obstacles
         public override ObstacleSpawnPosition ObstacleSpawnPosition => gameObject.name == "leftDoor" ? ObstacleSpawnPosition.Left : ObstacleSpawnPosition.Right;
 
 
-        protected override void Activate()
+        public override void Activate()
         {
             StartCoroutine(OpenDoor());
         }

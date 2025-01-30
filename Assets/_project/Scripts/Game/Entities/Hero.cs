@@ -1,3 +1,4 @@
+using System;
 using _project.Scripts.Game.Entities.Components;
 using _project.Scripts.Tools;
 using UnityEngine;
@@ -30,6 +31,11 @@ namespace _project.Scripts.Game.Entities
         }
 
         private void OnTriggerEnter(Collider other)
+        {
+            _collisionHandler.Trigger(other);
+        }
+
+        private void OnCollisionEnter(Collision other)
         {
             _collisionHandler.Collide(other);
         }

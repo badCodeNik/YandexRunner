@@ -47,6 +47,12 @@ namespace _project.Scripts.Game.Entities.Components
             UpdateLateralMovement();
         }
 
+        public void Stop()
+        {
+            IsMoving = false;
+            _animationHandler.PlayLost();
+        }
+
         private void UpdateLateralMovement()
         {
             float direction = 0;

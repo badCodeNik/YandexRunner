@@ -28,7 +28,11 @@ namespace _project.Scripts.Game.GameplayControllers
             _isMoving = true;
         }
 
-        private void OnSignal(GameSignals.OnGameEnded data) => _isMoving = false;
+        private void OnSignal(GameSignals.OnGameEnded data)
+        {
+            _isMoving = false;
+            _hero.MoveComponent.Stop();
+        }
 
         private void OnSignal(GameSignals.OnHeroSpawned data) => _hero = data.Hero;
 

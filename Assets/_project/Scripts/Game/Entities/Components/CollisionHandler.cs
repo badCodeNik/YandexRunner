@@ -13,15 +13,18 @@ namespace _project.Scripts.Game.Entities.Components
             _signal = signal;
         }
 
-        public void Collide(Collider other)
+        public void Trigger(Collider other)
         {
             if (other.CompareTag("Finish")) _signal.RegistryRaise(new GameSignals.OnGameEnded { HasWon = true });
             
             //TODO : нужно пофиксить коллайдер и переставить скрипт на дочерний объект
-            if (other.TryGetComponent<Obstacle>(out var obstacle))
-            {
-                _signal.RegistryRaise(new GameSignals.OnGameEnded { HasWon = false });
-            }
+        }
+
+        public void Collide(Collision other)
+        {
+            var obstacle = other.collider.GetComponentInParent(typeof(Obstacle));
+            
+            if (obstacle != null) _signal.RegistryRaise(new GameSignals.OnGameEnded { HasWon = false });
         }
     }
 }

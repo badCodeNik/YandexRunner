@@ -14,6 +14,7 @@ namespace _project.Scripts.Game.Entities.Components
         [SerializeField] private Animator animator;
         private readonly int _isRunningHash = Animator.StringToHash("isRunning");
         private readonly int _isWalkingHash = Animator.StringToHash("isWalking");
+        private readonly int _lostHash = Animator.StringToHash("lost");
 
         public void PlayRun()
         {
@@ -25,6 +26,17 @@ namespace _project.Scripts.Game.Entities.Components
         {
             animator.SetBool(_isWalkingHash, true);
             animator.SetBool(_isRunningHash, false);
+        }
+
+        public void PlayIdle()
+        {
+            animator.SetBool(_isRunningHash, false);
+            animator.SetBool(_isWalkingHash, false);
+        }
+
+        public void PlayLost()
+        {
+            animator.SetTrigger(_lostHash);
         }
     }
 }
