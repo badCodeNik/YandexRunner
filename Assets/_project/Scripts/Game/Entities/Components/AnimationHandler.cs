@@ -15,6 +15,7 @@ namespace _project.Scripts.Game.Entities.Components
         private readonly int _isRunningHash = Animator.StringToHash("isRunning");
         private readonly int _isWalkingHash = Animator.StringToHash("isWalking");
         private readonly int _lostHash = Animator.StringToHash("lost");
+        private readonly int _winHash = Animator.StringToHash("won");
 
         public void PlayRun()
         {
@@ -37,6 +38,11 @@ namespace _project.Scripts.Game.Entities.Components
         public void PlayLost()
         {
             animator.SetTrigger(_lostHash);
+        }
+
+        public void PlayWin()
+        {
+            animator.SetTrigger(_winHash);
         }
     }
 }

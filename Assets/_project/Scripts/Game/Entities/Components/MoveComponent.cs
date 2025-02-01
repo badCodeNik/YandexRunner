@@ -10,7 +10,7 @@ namespace _project.Scripts.Game.Entities.Components
         private readonly Transform _heroRoot;
         private readonly AnimationHandler _animationHandler;
         [SerializeField] private float forwardSpeed = 5f;
-        [SerializeField] private float lateralSpeed = 15f;
+        [SerializeField] private float lateralSpeed = 10f;
         [SerializeField] private float topSpeed;
         [SerializeField] private float minSpeed;
 
@@ -22,7 +22,7 @@ namespace _project.Scripts.Game.Entities.Components
             Center
         }
 
-        private MovementState _currentState = MovementState.None;
+        private MovementState _currentState = MovementState.Center;
         private float _desiredX;
 
         public bool IsMoving { get; private set; }
@@ -50,11 +50,11 @@ namespace _project.Scripts.Game.Entities.Components
         public void Stop()
         {
             IsMoving = false;
-            _animationHandler.PlayLost();
         }
 
         private void UpdateLateralMovement()
         {
+            
             float direction = 0;
 
             switch (_currentState)
@@ -76,11 +76,14 @@ namespace _project.Scripts.Game.Entities.Components
             }
 
             _heroRoot.position += new Vector3(direction, 0, 0) * lateralSpeed * Time.deltaTime;
-
-            if (Mathf.Abs(_heroRoot.position.x - _desiredX) < 0.1f)
+            
+            
+            Vector3 targetPosition = new Vector3(_desiredX, _heroRoot.position.y, _heroRoot.position.z);
+            float distance = Vector3.Distance(_heroRoot.position, targetPosition);
+            if (distance <= 0.1f)
             {
                 StopShifting();
-                _heroRoot.position = new Vector3(_desiredX, _heroRoot.position.y, _heroRoot.position.z);
+                _heroRoot.position = targetPosition;
             }
         }
 

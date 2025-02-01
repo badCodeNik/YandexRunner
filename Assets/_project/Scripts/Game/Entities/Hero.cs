@@ -28,6 +28,14 @@ namespace _project.Scripts.Game.Entities
             moveComponent = new MoveComponent(transform, _animationHandler);
             jumpComponent = new JumpComponent(GetComponent<Rigidbody>(), groundCheck);
             IsInitialized = true;
+            signal.Subscribe<GameSignals.OnGameEnded>(OnSignal);
+        }
+
+        private void OnSignal(GameSignals.OnGameEnded data)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            if (data.HasWon) _animationHandler.PlayWin();
+            _animationHandler.PlayLost();
         }
 
         private void OnTriggerEnter(Collider other)
