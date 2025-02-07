@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4540cbc7204342cfa1b117c25ce1ee5d, type: 3}
   m_Name: LevelConfig
   m_EditorClassIdentifier: 
-  levelHeroSpawnPoint: {fileID: 3452784134343316773, guid: 9314f0a794ea05d49b2e6f027a76df9b, type: 3}
-  levelMonsterSpawnPoint: {fileID: 3452784134343316773, guid: 8112a661c37e2e142897694a4c1d8f6e, type: 3}
-  gateNumber: 5
-  plane: {fileID: 2321430820456883865, guid: 5de99f5644d566c43b79b2d7312c2014, type: 3}
+  LevelHeroSpawnPoint: {x: -2.55, y: 0, z: 0}
+  plane: {fileID: 0}
+  levelLength: 31.6
+  levelWidth: 5.1
+  numberOfObstacles: 0

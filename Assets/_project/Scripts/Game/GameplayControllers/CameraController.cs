@@ -7,16 +7,17 @@ namespace _project.Scripts.Game.GameplayControllers
     {
         [SerializeField] private Transform target;
         private const float Smoothing = 5f;
-        private readonly Vector3 offset = new(0,6,-8);
+        private readonly Vector3 offset = new(0, 20, -20);
 
         public void Initialize(Signal signal)
         {
             signal.Subscribe<GameSignals.OnHeroSpawned>(OnSignal);
         }
+
         private void LateUpdate()
         {
             if (!target) return;
-        
+
             var desiredPosition = target.position + offset;
             transform.position = Vector3.Lerp(transform.position, desiredPosition, Smoothing * Time.deltaTime);
         }

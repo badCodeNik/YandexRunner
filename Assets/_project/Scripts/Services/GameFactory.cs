@@ -15,7 +15,8 @@ namespace _project.Scripts.Services
         
         public GameObject CreateGameObject(string path)
         {
-            return _resourceLoaderService.LoadPrefab(path);
+            var prefab =_resourceLoaderService.LoadPrefab(path);
+            return Object.Instantiate(prefab);
         }
         
         public GameObject CreateGameObjectAtPosition(string path, Vector3 position)
