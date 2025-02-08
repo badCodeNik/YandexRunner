@@ -1,3 +1,4 @@
+using System.Collections;
 using _project.Scripts.Services;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -17,6 +18,7 @@ namespace _project.Scripts.Game.Configs
         public float levelWidth;
 
         public int numberOfObstacles;
+        public int numberOfGates;
 
         public override void Initialize()
         {

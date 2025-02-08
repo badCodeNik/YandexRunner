@@ -34,12 +34,11 @@ namespace _project.Scripts.Game.Infrastructure.FSM
         private void InitializeClasses()
         {
             var signal = AllServices.Container.Single<Signal>();
-            var inputService = new InputService(signal);
+            var inputService = new InputService();
             var inputController = new InputController(signal, inputService);
             var heroMoveController = AllServices.Container.Single<CompositionRoot>().AddComponent<HeroMoveController>();
             heroMoveController.Initialize(inputService, signal);
             AllServices.Container.Single<CameraController>().Initialize(signal);
-            var inputListener = new InputListener(heroMoveController, signal);
         }
 
         private async void ParseGoogleSheet()

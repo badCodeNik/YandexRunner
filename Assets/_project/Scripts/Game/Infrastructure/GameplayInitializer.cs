@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using _project.Scripts.Game.Configs;
 using _project.Scripts.Game.Entities;
 using _project.Scripts.Game.GameRoot;
@@ -36,21 +37,69 @@ namespace _project.Scripts.Game.Infrastructure
         {
             GameObject floor = _gameFactory.CreateGameObject(Constants.Paths.FloorPath);
             GameObject finish = _gameFactory.CreateGameObject(Constants.Paths.FinishPath);
+            InitializeAndPlaceWordFence();
+
             _levelConfig.plane = floor;
             _levelConfig.finish = finish;
-            _levelConfig.plane.transform.localScale = new Vector3(_levelConfig.levelWidth, 0, _levelConfig.levelLength);
-            var collider = _levelConfig.plane.GetComponent<BoxCollider>();
-            if (collider != null)
+            _levelConfig.plane.transform.position = Vector3.zero;
+
+            Mesh planeMesh = CreatePlaneMesh(_levelConfig.levelWidth, _levelConfig.levelLength);
+            var meshFilter = _levelConfig.plane.GetComponent<MeshFilter>();
+            if (meshFilter != null)
             {
-                Vector3 planeSize = collider.size;
-                float planeLength = planeSize.z * _levelConfig.plane.transform.localScale.z;
-                float startZ = _levelConfig.plane.transform.position.z - (planeLength / 2);
-                _levelConfig.LevelHeroSpawnPoint = new Vector3(0, _levelConfig.plane.transform.position.y + 0.5f, startZ);
-                _levelConfig.finish.transform.position = new Vector3(
-                    0,
-                    _levelConfig.plane.transform.position.y + 0.5f,
-                    _levelConfig.plane.transform.position.z + planeLength / 2);
+                meshFilter.mesh = planeMesh;
             }
+            
+            var collider = _levelConfig.plane.GetComponent<MeshCollider>();
+            if (collider == null)
+            {
+                collider = _levelConfig.plane.AddComponent<MeshCollider>();
+            }
+            collider.sharedMesh = planeMesh;
+
+
+            Vector3 planeSize = planeMesh.bounds.size;
+            float planeLength = planeSize.z;
+            float startZ = _levelConfig.plane.transform.position.z - planeLength / 2 + 2;
+            _levelConfig.LevelHeroSpawnPoint = new Vector3(0, _levelConfig.plane.transform.position.y + 0.5f, startZ);
+            _levelConfig.finish.transform.position = new Vector3(
+                0,
+                _levelConfig.plane.transform.position.y + 0.5f,
+                _levelConfig.plane.transform.position.z + planeLength / 2);
+        }
+
+        private Mesh CreatePlaneMesh(float levelConfigLevelWidth, float levelConfigLevelLength)
+        {
+            Mesh mesh = new Mesh();
+
+            Vector3[] vertices =
+            {
+                new(-levelConfigLevelWidth / 2, 0, -levelConfigLevelLength / 2),
+                new(levelConfigLevelWidth / 2, 0, -levelConfigLevelLength / 2),
+                new(-levelConfigLevelWidth / 2, 0, levelConfigLevelLength / 2),
+                new(levelConfigLevelWidth / 2, 0, levelConfigLevelLength / 2)
+            };
+
+            int[] triangles = new int[6] { 0, 2, 1, 2, 3, 1 };
+
+            mesh.vertices = vertices;
+            mesh.triangles = triangles;
+            mesh.RecalculateNormals();
+
+            return mesh;
+        }
+
+        private void InitializeAndPlaceWordFence()
+        {
+            List<GameObject> gates = new();
+            for (int i = 0; i < _levelConfig.numberOfGates; i++)
+            {
+                var wordFence = _gameFactory.CreateGameObject(Constants.Paths.WordFencePath);
+                gates.Add(wordFence);
+            }
+
+            gates[0].transform.position = new Vector3(gates[0].transform.position.x, gates[0].transform.position.y, -15);
+            gates[1].transform.position = new Vector3(gates[0].transform.position.x, gates[0].transform.position.y, 35);
         }
 
         private void ActivateTapPanel()

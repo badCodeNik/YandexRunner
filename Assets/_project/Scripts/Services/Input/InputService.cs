@@ -17,9 +17,8 @@ namespace _project.Scripts.Services.Input
     private Vector2 _endPosition;
     private float _endTime;
 
-    public InputService(Signal signal)
+    public InputService()
     {
-        _signal = signal;
         _input = new PlayerInput();
         _swipeSettings = new SwipeSettings();
         _input.Player.PrimaryContact.started += StartTouchPrimary;
@@ -36,32 +35,32 @@ namespace _project.Scripts.Services.Input
     {
         _endPosition = position;
         _endTime = time;
-        DetectSwipe();
+        //DetectSwipe();
     }
-
-    private void DetectSwipe()
-    {
-        
-        if (!(Vector3.Distance(_startPosition, _endPosition) >= _swipeSettings.swipeThreshold) ||
-            !(_endTime - _startTime <= _swipeSettings.maxTime)) return;
-
-        var swipeDirection = _endPosition - _startPosition;
-        var angle = Mathf.Atan2(swipeDirection.y, swipeDirection.x) * Mathf.Rad2Deg;
-
-        if (angle < 0)
-            angle += 360;
-
-        if (angle >= 45 && angle < 135)
-            _signal.RegistryRaise(new OnSwipeUp());
-        else if (angle >= 135 && angle < 225)
-            _signal.RegistryRaise(new OnSwipeLeft());
-        else if (angle >= 225 && angle < 315)
-            _signal.RegistryRaise(new OnSwipeDown());
-        else
-            _signal.RegistryRaise(new OnSwipeRight());
-
-        Handheld.Vibrate();
-    }
+    //
+    // private void DetectSwipe()
+    // {
+    //     
+    //     if (!(Vector3.Distance(_startPosition, _endPosition) >= _swipeSettings.swipeThreshold) ||
+    //         !(_endTime - _startTime <= _swipeSettings.maxTime)) return;
+    //
+    //     var swipeDirection = _endPosition - _startPosition;
+    //     var angle = Mathf.Atan2(swipeDirection.y, swipeDirection.x) * Mathf.Rad2Deg;
+    //
+    //     if (angle < 0)
+    //         angle += 360;
+    //
+    //     if (angle >= 45 && angle < 135)
+    //         // SwipeUp
+    //     else if (angle >= 135 && angle < 225)
+    //         //Swipe left
+    //         else if (angle >= 225 && angle < 315)
+    //         //Swipe down
+    //     else
+    //         //SwipeRight
+    //         
+    //     Handheld.Vibrate();
+    // }
 
     public void EnableInput() => _input.Enable();
     public void DisableInput() => _input.Disable();
@@ -82,19 +81,10 @@ namespace _project.Scripts.Services.Input
     }
 }
 
-    public struct OnSwipeLeft
+    public class SwipeSettings
     {
+        public float maxTime;
+        public float swipeThreshold;
     }
-
-    public struct OnSwipeRight
-    {
-    }
-
-    public struct OnSwipeUp
-    {
-    }
-
-    public struct OnSwipeDown
-    {
-    }
+    
 }

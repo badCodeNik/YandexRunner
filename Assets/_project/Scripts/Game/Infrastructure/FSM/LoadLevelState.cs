@@ -26,8 +26,8 @@ namespace _project.Scripts.Game.Infrastructure.FSM
         private void InitControllers()
         {
             var chosenWordController = new ChosenWordController();
-            var quizController = AllServices.Container.Single<CompositionRoot>().AddComponent<QuizController>();
-            quizController.Initialize();
+            //var quizController = AllServices.Container.Single<CompositionRoot>().AddComponent<QuizController>();
+            //quizController.Initialize();
             var signal = AllServices.Container.Single<Signal>();
             chosenWordController.Initialize(signal);
             ScoreService.Initialize(signal);

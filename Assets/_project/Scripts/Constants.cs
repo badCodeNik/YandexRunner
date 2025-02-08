@@ -11,6 +11,7 @@ namespace _project.Scripts
 
         public static class Paths
         {
+            public const string  WordFencePath = "WordFence";
             public const string FinishPath = "Finish";
             public const string HeroPath = "SchoolBoy";
             public const string UiRootViewPath = "UIRoot";

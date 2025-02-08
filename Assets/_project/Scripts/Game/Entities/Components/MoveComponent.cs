@@ -10,19 +10,11 @@ namespace _project.Scripts.Game.Entities.Components
         private readonly Transform _heroRoot;
         private readonly AnimationHandler _animationHandler;
         [SerializeField] private float forwardSpeed = 5f;
-        [SerializeField] private float lateralSpeed = 10f;
+        [SerializeField] private float lateralSpeed = 2f;
         [SerializeField] private float topSpeed;
         [SerializeField] private float minSpeed;
 
-        private enum MovementState
-        {
-            None,
-            Left,
-            Right,
-            Center
-        }
 
-        private MovementState _currentState = MovementState.Center;
         private float _desiredX;
 
         public bool IsMoving { get; private set; }
@@ -33,78 +25,23 @@ namespace _project.Scripts.Game.Entities.Components
             _animationHandler = animationHandler;
         }
 
-        public void Move()
+        public void Move(float axis)
         {
             IsMoving = true;
-            _heroRoot.position += Vector3.forward * forwardSpeed * Time.deltaTime;
+            _heroRoot.position += new Vector3(axis * lateralSpeed, _heroRoot.position.y, 1 * forwardSpeed * Time.deltaTime);
+            var positionX = _heroRoot.position.x;
+            var limitedPos = Math.Clamp(positionX, -2, 2);
+            _heroRoot.position = new Vector3(limitedPos, _heroRoot.position.y, _heroRoot.position.z);
             ScoreService.CountScore(forwardSpeed * Time.deltaTime);
 
             if (forwardSpeed < 5) _animationHandler.PlayWalk();
             else _animationHandler.PlayRun();
 
-            if (_currentState == MovementState.None) return;
-
-            UpdateLateralMovement();
         }
 
         public void Stop()
         {
             IsMoving = false;
-        }
-
-        private void UpdateLateralMovement()
-        {
-            
-            float direction = 0;
-
-            switch (_currentState)
-            {
-                case MovementState.Left:
-                    _desiredX = -4;
-                    direction = -1;
-                    break;
-
-                case MovementState.Right:
-                    _desiredX = 4;
-                    direction = 1;
-                    break;
-
-                case MovementState.Center:
-                    _desiredX = 0;
-                    direction = Mathf.Sign(_desiredX - _heroRoot.position.x);
-                    break;
-            }
-
-            _heroRoot.position += new Vector3(direction, 0, 0) * lateralSpeed * Time.deltaTime;
-            
-            
-            Vector3 targetPosition = new Vector3(_desiredX, _heroRoot.position.y, _heroRoot.position.z);
-            float distance = Vector3.Distance(_heroRoot.position, targetPosition);
-            if (distance <= 0.1f)
-            {
-                StopShifting();
-                _heroRoot.position = targetPosition;
-            }
-        }
-
-        public void MoveToLeft()
-        {
-            _currentState = MovementState.Left;
-        }
-
-        public void MoveToRight()
-        {
-            _currentState = MovementState.Right;
-        }
-
-        public void MoveToCenter()
-        {
-            _currentState = MovementState.Center;
-        }
-
-        private void StopShifting()
-        {
-            _currentState = MovementState.None;
         }
 
         public void SetSpeed(float newForwardSpeed)

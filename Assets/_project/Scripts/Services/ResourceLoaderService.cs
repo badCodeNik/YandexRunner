@@ -4,10 +4,6 @@ namespace _project.Scripts.Services
 {
     public class ResourceLoaderService
     {
-        public ResourceLoaderService()
-        {
-            Debug.Log("ResourceLoaderService created");
-        }
 
         public Object Load(string path)
         {

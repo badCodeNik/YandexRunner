@@ -7,7 +7,7 @@ namespace _project.Scripts.Game.GameplayControllers
     {
         [SerializeField] private Transform target;
         private const float Smoothing = 5f;
-        private readonly Vector3 offset = new(0, 20, -20);
+        private readonly Vector3 offset = new(0, 5, -5);
 
         public void Initialize(Signal signal)
         {
