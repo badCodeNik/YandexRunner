@@ -28,7 +28,7 @@ namespace _project.Scripts.Game.Entities.Components
         public void Move(float axis)
         {
             IsMoving = true;
-            _heroRoot.position += new Vector3(axis * lateralSpeed, _heroRoot.position.y, 1 * forwardSpeed * Time.deltaTime);
+            _heroRoot.position += new Vector3(axis * lateralSpeed, 0, forwardSpeed * Time.deltaTime);
             var positionX = _heroRoot.position.x;
             var limitedPos = Math.Clamp(positionX, -2, 2);
             _heroRoot.position = new Vector3(limitedPos, _heroRoot.position.y, _heroRoot.position.z);

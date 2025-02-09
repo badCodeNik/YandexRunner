@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using _project.Scripts.Game.Configs;
 using _project.Scripts.Game.Entities;
 using _project.Scripts.Game.GameRoot;
+using _project.Scripts.Game.Obstacles;
 using _project.Scripts.Services;
 using _project.Scripts.Tools;
 using UnityEngine;
@@ -38,7 +40,7 @@ namespace _project.Scripts.Game.Infrastructure
             GameObject floor = _gameFactory.CreateGameObject(Constants.Paths.FloorPath);
             GameObject finish = _gameFactory.CreateGameObject(Constants.Paths.FinishPath);
             InitializeAndPlaceWordFence();
-
+            InitializeAndPlaceObstacles();
             _levelConfig.plane = floor;
             _levelConfig.finish = finish;
             _levelConfig.plane.transform.position = Vector3.zero;
@@ -49,12 +51,13 @@ namespace _project.Scripts.Game.Infrastructure
             {
                 meshFilter.mesh = planeMesh;
             }
-            
+
             var collider = _levelConfig.plane.GetComponent<MeshCollider>();
             if (collider == null)
             {
                 collider = _levelConfig.plane.AddComponent<MeshCollider>();
             }
+
             collider.sharedMesh = planeMesh;
 
 
@@ -66,6 +69,31 @@ namespace _project.Scripts.Game.Infrastructure
                 0,
                 _levelConfig.plane.transform.position.y + 0.5f,
                 _levelConfig.plane.transform.position.z + planeLength / 2);
+        }
+
+        private void InitializeAndPlaceObstacles()
+        {
+            Vector3 positionToSpawn;
+            float previousZ = 0;
+            foreach (var obstacle in _levelConfig.obstaclesToSpawn)
+            {
+                switch (obstacle.ObstacleSpawnPosition)
+                {
+                    case ObstacleSpawnPosition.Left:
+                        positionToSpawn = new Vector3(-2, 0, previousZ + 10);
+                        break;
+                    case ObstacleSpawnPosition.Right:
+                        positionToSpawn = new Vector3(2, 0, previousZ + 10);
+                        break;
+                    case ObstacleSpawnPosition.Middle:
+                        positionToSpawn = new Vector3(0, 0, previousZ + 10);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                _gameFactory.CreateGameObjectAtPosition(obstacle.ObstaclePath, positionToSpawn);
+            }
         }
 
         private Mesh CreatePlaneMesh(float levelConfigLevelWidth, float levelConfigLevelLength)
@@ -98,7 +126,8 @@ namespace _project.Scripts.Game.Infrastructure
                 gates.Add(wordFence);
             }
 
-            gates[0].transform.position = new Vector3(gates[0].transform.position.x, gates[0].transform.position.y, -15);
+            gates[0].transform.position =
+                new Vector3(gates[0].transform.position.x, gates[0].transform.position.y, -15);
             gates[1].transform.position = new Vector3(gates[0].transform.position.x, gates[0].transform.position.y, 35);
         }
 

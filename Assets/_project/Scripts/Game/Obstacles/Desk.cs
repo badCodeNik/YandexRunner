@@ -7,6 +7,7 @@ namespace _project.Scripts.Game.Obstacles
     {
         [SerializeField] private float _desiredLeftX = 3;
         [SerializeField] private float _desiredRightX = -3;
+        public override string ObstaclePath { get; }
         public override ObstacleSpawnPosition ObstacleSpawnPosition { get; }
         private readonly float _shiftingSpeed = 10;
         private Vector3 _desiredPosition;

@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using _project.Scripts.Game.Obstacles;
 using _project.Scripts.Services;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -17,7 +19,7 @@ namespace _project.Scripts.Game.Configs
         [Range(1,10)]
         public float levelWidth;
 
-        public int numberOfObstacles;
+        public List<Obstacle> obstaclesToSpawn;
         public int numberOfGates;
 
         public override void Initialize()

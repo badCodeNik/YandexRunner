@@ -17,5 +17,10 @@ MonoBehaviour:
   finish: {fileID: 0}
   levelLength: 90
   levelWidth: 5.1
-  numberOfObstacles: 0
+  obstaclesToSpawn:
+  - {fileID: 5821539932928671284, guid: 6c5f373144e1371429c4941885695622, type: 3}
+  - {fileID: 5821539932928671284, guid: 6c5f373144e1371429c4941885695622, type: 3}
+  - {fileID: 551707348926990228, guid: 5a84b8018fec1684c8d5756708005da4, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   numberOfGates: 2

@@ -7,6 +7,7 @@ namespace _project.Scripts.Game.Obstacles
     {
         [SerializeField] private Animator animator;
         [SerializeField] private float speed;
+        public override string ObstaclePath { get; }
         public override ObstacleSpawnPosition ObstacleSpawnPosition { get; }
         private bool _isChasing;
         private Hero _hero;
