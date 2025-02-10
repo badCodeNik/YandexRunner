@@ -8,7 +8,7 @@ namespace _project.Scripts.Game.Obstacles
         [SerializeField] private GameObject door;
         [SerializeField] private float rotationSpeed = 150f;
         [SerializeField] private float targetAngle = -45f;
-        public override string ObstaclePath { get; }
+        public override string ObstaclePath => Constants.Paths.DoorPath;
         public override ObstacleSpawnPosition ObstacleSpawnPosition => gameObject.name == "leftDoor" ? ObstacleSpawnPosition.Left : ObstacleSpawnPosition.Right;
 
 

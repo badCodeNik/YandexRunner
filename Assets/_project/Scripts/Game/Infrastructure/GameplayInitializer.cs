@@ -92,6 +92,7 @@ namespace _project.Scripts.Game.Infrastructure
                         throw new ArgumentOutOfRangeException();
                 }
 
+                previousZ += 10;
                 _gameFactory.CreateGameObjectAtPosition(obstacle.ObstaclePath, positionToSpawn);
             }
         }
