@@ -30,8 +30,8 @@ namespace _project.Scripts.Game.Entities.Components
         {
             if (_isJumping) return;
 
-            _rigidbody.linearVelocity =
-                new Vector3(_rigidbody.linearVelocity.x, jumpForce, _rigidbody.linearVelocity.z);
+            _rigidbody.velocity =
+                new Vector3(_rigidbody.velocity.x, jumpForce, _rigidbody.velocity.z);
             _isJumping = true;
         }
 

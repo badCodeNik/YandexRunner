@@ -3574,7 +3574,7 @@
             <summary>The ETag of the item.</summary>
         </member>
         <member name="T:Google.Apis.Sheets.v4.Data.DeleteDimensionRequest">
-            <summary>Deletes the dimensions from the sheet.</summary>
+            <summary> Deletes the dimensions from the sheet.</summary>
         </member>
         <member name="P:Google.Apis.Sheets.v4.Data.DeleteDimensionRequest.Range">
             <summary>The dimensions to delete from the sheet.</summary>

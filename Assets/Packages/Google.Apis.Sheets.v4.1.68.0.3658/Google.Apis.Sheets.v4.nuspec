@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Google.Apis.Sheets.v4</id>
-    <version>1.68.0.3624</version>
+    <version>1.68.0.3658</version>
     <title>Google.Apis.Sheets.v4 Client Library</title>
     <authors>Google LLC</authors>
     <license type="expression">Apache-2.0</license>
@@ -34,9 +34,9 @@
       - Windows 8 Apps
       - Windows Phone 8.1
       - Windows Phone Silverlight 8.0</description>
-    <copyright>Copyright 2024 Google LLC</copyright>
+    <copyright>Copyright 2025 Google LLC</copyright>
     <tags>Google</tags>
-    <repository type="git" url="https://github.com/google/google-api-dotnet-client" commit="519ceb61d13209d3545c1065596b39699284bd00" />
+    <repository type="git" url="https://github.com/google/google-api-dotnet-client" commit="c96abd229b54b1ff1d12f15391f2c0691a98c5fa" />
     <dependencies>
       <group targetFramework=".NETFramework4.6.2">
         <dependency id="Google.Apis" version="1.68.0" exclude="Build,Analyzers" />
