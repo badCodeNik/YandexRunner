@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fb7a23dcce14bc1b7cf776b0ed2ef89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obstacleSpawnPosition: 1
   animator: {fileID: 1250540768496635425}
   speed: 3
 --- !u!1001 &2776135301786352346
@@ -116,11 +117,11 @@ PrefabInstance:
       value: Scary_Teacher-1
       objectReference: {fileID: 0}
     - target: {fileID: 7423650185113164200, guid: d2ce42b9f93f7d743bf1ff26ad6fbd78, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
+      propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 426b2542496e16c458141aad81621f36, type: 2}
     - target: {fileID: 7423650185113164200, guid: d2ce42b9f93f7d743bf1ff26ad6fbd78, type: 3}
-      propertyPath: 'm_Materials.Array.data[1]'
+      propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: ab735407e399e9a4dbed966243ce6eae, type: 2}
     m_RemovedComponents: []
@@ -143,7 +144,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &1250540768496635425
 Animator:
-  serializedVersion: 7
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -157,7 +158,6 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1

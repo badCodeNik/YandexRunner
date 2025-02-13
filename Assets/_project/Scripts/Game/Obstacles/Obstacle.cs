@@ -4,8 +4,10 @@ namespace _project.Scripts.Game.Obstacles
 {
     public abstract class Obstacle : MonoBehaviour
     {
+        [SerializeField] private ObstacleSpawnPosition obstacleSpawnPosition;
         public abstract string ObstaclePath { get; }
-        public abstract ObstacleSpawnPosition ObstacleSpawnPosition { get; }
+
+        public ObstacleSpawnPosition ObstacleSpawnPosition => obstacleSpawnPosition;
 
         public abstract void Activate();
     }

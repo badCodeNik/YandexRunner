@@ -9,6 +9,7 @@ namespace _project.Scripts.Game.Infrastructure
         {
             var uiRootView = AllServices.Container.Single<UIRootView>();
             uiRootView.MainMenuView.StartGameButton.onClick.AddListener(gameplayInitializer.StartGameplay);
+            uiRootView.MainMenuView.StartGameButton.onClick.AddListener(uiRootView.ShowHud);
             //uiRootView.LosePanelView.MainMenuButton.onClick.AddListener();
             //uiRootView.LosePanelView.RestartLevelButton.onClick.AddListener();
             //uiRootView.WinPanelView.MainMenuButton.onClick.AddListener();

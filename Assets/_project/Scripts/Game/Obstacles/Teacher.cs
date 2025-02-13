@@ -8,7 +8,6 @@ namespace _project.Scripts.Game.Obstacles
         [SerializeField] private Animator animator;
         [SerializeField] private float speed;
         public override string ObstaclePath => Constants.Paths.TeacherPath;
-        public override ObstacleSpawnPosition ObstacleSpawnPosition { get; }
         private bool _isChasing;
         private Hero _hero;
         private readonly int isChasing = Animator.StringToHash("isChasing");

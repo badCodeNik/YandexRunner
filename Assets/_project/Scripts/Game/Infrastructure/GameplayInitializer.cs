@@ -30,17 +30,22 @@ namespace _project.Scripts.Game.Infrastructure
         {
             _uiRootView.HideMainMenuPanel();
             _uiRootView.ActivateScore();
+            ActivateTapPanel();
             InitializeLevel();
             SpawnHero();
-            ActivateTapPanel();
         }
 
         private void InitializeLevel()
         {
-            GameObject floor = _gameFactory.CreateGameObject(Constants.Paths.FloorPath);
-            GameObject finish = _gameFactory.CreateGameObject(Constants.Paths.FinishPath);
+            InitializeAndPlaceFloor();
             InitializeAndPlaceWordFence();
             InitializeAndPlaceObstacles();
+        }
+
+        private void InitializeAndPlaceFloor()
+        {
+            GameObject floor = _gameFactory.CreateGameObject(Constants.Paths.FloorPath);
+            GameObject finish = _gameFactory.CreateGameObject(Constants.Paths.FinishPath);
             _levelConfig.plane = floor;
             _levelConfig.finish = finish;
             _levelConfig.plane.transform.position = Vector3.zero;
@@ -73,26 +78,26 @@ namespace _project.Scripts.Game.Infrastructure
 
         private void InitializeAndPlaceObstacles()
         {
-            Vector3 positionToSpawn;
-            float previousZ = 0;
-            foreach (var obstacle in _levelConfig.obstaclesToSpawn)
+            int[] positionsToSpawn = {-30, -22, -3, 10, 20, 27 };
+            for (var index = 0; index < _levelConfig.obstaclesToSpawn.Count; index++)
             {
+                var obstacle = _levelConfig.obstaclesToSpawn[index];
+                Vector3 positionToSpawn;
                 switch (obstacle.ObstacleSpawnPosition)
                 {
                     case ObstacleSpawnPosition.Left:
-                        positionToSpawn = new Vector3(-2, 0, previousZ + 10);
+                        positionToSpawn = new Vector3(-2, 0, positionsToSpawn[index]);
                         break;
                     case ObstacleSpawnPosition.Right:
-                        positionToSpawn = new Vector3(2, 0, previousZ + 10);
+                        positionToSpawn = new Vector3(2, 0, positionsToSpawn[index]);
                         break;
                     case ObstacleSpawnPosition.Middle:
-                        positionToSpawn = new Vector3(0, 0, previousZ + 10);
+                        positionToSpawn = new Vector3(0, 0, positionsToSpawn[index]);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
 
-                previousZ += 10;
                 _gameFactory.CreateGameObjectAtPosition(obstacle.ObstaclePath, positionToSpawn);
             }
         }
@@ -127,9 +132,8 @@ namespace _project.Scripts.Game.Infrastructure
                 gates.Add(wordFence);
             }
 
-            gates[0].transform.position =
-                new Vector3(gates[0].transform.position.x, gates[0].transform.position.y, -15);
-            gates[1].transform.position = new Vector3(gates[0].transform.position.x, gates[0].transform.position.y, 35);
+            gates[0].transform.position = new Vector3(gates[0].transform.position.x, gates[0].transform.position.y, -15);
+            gates[1].transform.position = new Vector3(gates[1].transform.position.x, gates[1].transform.position.y, 35);
         }
 
         private void ActivateTapPanel()

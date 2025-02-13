@@ -11,7 +11,7 @@ namespace _project.Scripts.Game.GameRoot
         public LosePanelView LosePanelView => losePanelView;
         public WinPanelView WinPanelView => winPanelView;
         public MainMenuView MainMenuView => mainMenuView;
-        
+
         [SerializeField] private GameObject loadingScreen;
         [SerializeField] private MainMenuView mainMenuView;
         [SerializeField] private TapPanelView tapPanelView;
@@ -19,6 +19,7 @@ namespace _project.Scripts.Game.GameRoot
         [SerializeField] private WinPanelView winPanelView;
         [SerializeField] private WordChoicePanel wordChoicePanel;
         [SerializeField] private ScorePanel scorePanel;
+        [SerializeField] private GameObject hud;
 
 
         private bool _tapPanelIsActive;
@@ -126,18 +127,33 @@ namespace _project.Scripts.Game.GameRoot
         }
 
         #endregion
-        
+
         #region ScorePanel
 
         public void ActivateScore()
         {
             scorePanel.ShowScore();
         }
+
         public void HideScore()
         {
             scorePanel.HideScore();
         }
-        
+
+        #endregion
+
+        #region Hud
+
+        public void ShowHud()
+        {
+            hud.gameObject.SetActive(true);
+        }
+
+        public void HideHud()
+        {
+            hud.gameObject.SetActive(false);
+        }
+
         #endregion
     }
 }
