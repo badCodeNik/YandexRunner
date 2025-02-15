@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4540cbc7204342cfa1b117c25ce1ee5d, type: 3}
   m_Name: LevelConfig
   m_EditorClassIdentifier: 
-  LevelHeroSpawnPoint: {x: 0, y: 0.5, z: -450}
+  LevelHeroSpawnPoint: {fileID: 0}
   plane: {fileID: 0}
   finish: {fileID: 0}
   levelLength: 90
   levelWidth: 5.1
-  obstaclesToSpawn:
-  - {fileID: 5821539932928671284, guid: 6c5f373144e1371429c4941885695622, type: 3}
-  - {fileID: 551707348926990228, guid: 5a84b8018fec1684c8d5756708005da4, type: 3}
+  obstaclesToSpawn: []
   numberOfGates: 2

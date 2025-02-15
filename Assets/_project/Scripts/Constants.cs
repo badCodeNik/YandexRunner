@@ -15,10 +15,9 @@ namespace _project.Scripts
             public const string DeskPath = "Desk";
             public const string TeacherPath = "Teacher";
             public const string WordFencePath = "WordFence";
-            public const string FinishPath = "Finish";
             public const string HeroPath = "SchoolBoy";
             public const string UiRootViewPath = "UIRoot";
-            public const string FloorPath = "Floor";
+            public const string MapPath = "Map";
         }
     }
 }

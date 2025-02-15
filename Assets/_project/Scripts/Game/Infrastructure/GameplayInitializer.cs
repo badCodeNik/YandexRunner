@@ -44,44 +44,18 @@ namespace _project.Scripts.Game.Infrastructure
 
         private void InitializeAndPlaceFloor()
         {
-            GameObject floor = _gameFactory.CreateGameObject(Constants.Paths.FloorPath);
-            GameObject finish = _gameFactory.CreateGameObject(Constants.Paths.FinishPath);
+            GameObject floor = _gameFactory.CreateGameObject(Constants.Paths.MapPath);
             _levelConfig.plane = floor;
-            _levelConfig.finish = finish;
+            _levelConfig.LevelHeroSpawnPoint = floor.transform;
             _levelConfig.plane.transform.position = Vector3.zero;
-
-            Mesh planeMesh = CreatePlaneMesh(_levelConfig.levelWidth, _levelConfig.levelLength);
-            var meshFilter = _levelConfig.plane.GetComponent<MeshFilter>();
-            if (meshFilter != null)
-            {
-                meshFilter.mesh = planeMesh;
-            }
-
-            var collider = _levelConfig.plane.GetComponent<MeshCollider>();
-            if (collider == null)
-            {
-                collider = _levelConfig.plane.AddComponent<MeshCollider>();
-            }
-
-            collider.sharedMesh = planeMesh;
-
-
-            Vector3 planeSize = planeMesh.bounds.size;
-            float planeLength = planeSize.z;
-            float startZ = _levelConfig.plane.transform.position.z - planeLength / 2 + 2;
-            _levelConfig.LevelHeroSpawnPoint = new Vector3(0, _levelConfig.plane.transform.position.y + 0.5f, startZ);
-            _levelConfig.finish.transform.position = new Vector3(
-                0,
-                _levelConfig.plane.transform.position.y + 0.5f,
-                _levelConfig.plane.transform.position.z + planeLength / 2);
         }
 
         private void InitializeAndPlaceObstacles()
         {
-            int[] positionsToSpawn = {-30, -22, -3, 10, 20, 27 };
-            for (var index = 0; index < _levelConfig.obstaclesToSpawn.Count; index++)
+            int[] positionsToSpawn = { 60, 80, 19, 10, 20, 27 };
+            for (var index = 0; index < _levelConfig.obstaclesSettings.obstaclesToSpawn.Count; index++)
             {
-                var obstacle = _levelConfig.obstaclesToSpawn[index];
+                var obstacle = _levelConfig.obstaclesSettings.obstaclesToSpawn[index];
                 Vector3 positionToSpawn;
                 switch (obstacle.ObstacleSpawnPosition)
                 {
@@ -102,26 +76,6 @@ namespace _project.Scripts.Game.Infrastructure
             }
         }
 
-        private Mesh CreatePlaneMesh(float levelConfigLevelWidth, float levelConfigLevelLength)
-        {
-            Mesh mesh = new Mesh();
-
-            Vector3[] vertices =
-            {
-                new(-levelConfigLevelWidth / 2, 0, -levelConfigLevelLength / 2),
-                new(levelConfigLevelWidth / 2, 0, -levelConfigLevelLength / 2),
-                new(-levelConfigLevelWidth / 2, 0, levelConfigLevelLength / 2),
-                new(levelConfigLevelWidth / 2, 0, levelConfigLevelLength / 2)
-            };
-
-            int[] triangles = new int[6] { 0, 2, 1, 2, 3, 1 };
-
-            mesh.vertices = vertices;
-            mesh.triangles = triangles;
-            mesh.RecalculateNormals();
-
-            return mesh;
-        }
 
         private void InitializeAndPlaceWordFence()
         {
@@ -132,7 +86,7 @@ namespace _project.Scripts.Game.Infrastructure
                 gates.Add(wordFence);
             }
 
-            gates[0].transform.position = new Vector3(gates[0].transform.position.x, gates[0].transform.position.y, -15);
+            gates[0].transform.position = new Vector3(gates[0].transform.position.x, gates[0].transform.position.y, 70);
             gates[1].transform.position = new Vector3(gates[1].transform.position.x, gates[1].transform.position.y, 35);
         }
 
@@ -146,10 +100,10 @@ namespace _project.Scripts.Game.Infrastructure
             if (_hero == null)
             {
                 _hero = _gameFactory
-                    .CreateGameObjectAtPosition(Constants.Paths.HeroPath, _levelConfig.LevelHeroSpawnPoint)
+                    .CreateGameObjectAtPosition(Constants.Paths.HeroPath, _levelConfig.LevelHeroSpawnPoint.position)
                     .GetComponent<Hero>();
             }
-            else _hero.transform.position = _levelConfig.LevelHeroSpawnPoint;
+            else _hero.transform.position = _levelConfig.LevelHeroSpawnPoint.position;
 
             _hero.Initialize(_signal);
 

@@ -29,9 +29,7 @@ namespace _project.Scripts.Game.Entities.Components
         {
             IsMoving = true;
             _heroRoot.position += new Vector3(axis * lateralSpeed, 0, forwardSpeed * Time.deltaTime);
-            var positionX = _heroRoot.position.x;
-            var limitedPos = Math.Clamp(positionX, -2, 2);
-            _heroRoot.position = new Vector3(limitedPos, _heroRoot.position.y, _heroRoot.position.z);
+            _heroRoot.position = new Vector3(_heroRoot.position.x, _heroRoot.position.y, _heroRoot.position.z);
             ScoreService.CountScore(forwardSpeed * Time.deltaTime);
 
             if (forwardSpeed < 5) _animationHandler.PlayWalk();
