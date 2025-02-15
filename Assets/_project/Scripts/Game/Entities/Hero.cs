@@ -8,7 +8,6 @@ namespace _project.Scripts.Game.Entities
     public class Hero : MonoBehaviour
     {
         [SerializeField] private Animator animator;
-        [SerializeField] private GameObject groundCheck;
         [SerializeField] private MoveComponent moveComponent;
         private CollisionHandler _collisionHandler;
         private AnimationHandler _animationHandler;
