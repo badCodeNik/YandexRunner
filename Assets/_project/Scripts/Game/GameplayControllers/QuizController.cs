@@ -8,7 +8,7 @@ namespace _project.Scripts.Game.GameplayControllers
     public class QuizController : MonoBehaviour
     {
         private const float TimeGapBetweenQuizes = 10f;
-        private float timeToNextQuiz;
+        private float _timeToNextQuiz;
         private float _timer;
         private bool _isGameActive;
         private Signal _signal;
@@ -20,7 +20,7 @@ namespace _project.Scripts.Game.GameplayControllers
             _signal.Subscribe<GameSignals.OnGameStarted>(OnSignal);
             _signal.Subscribe<GameSignals.OnGameEnded>(OnSignal);
             _signal.Subscribe<UISignals.OnTranslationChosen>(OnSignal);
-            timeToNextQuiz = Random.Range(0, TimeGapBetweenQuizes);
+            _timeToNextQuiz = Random.Range(0, TimeGapBetweenQuizes);
         }
 
         private void OnSignal(UISignals.OnTranslationChosen data)
@@ -35,10 +35,10 @@ namespace _project.Scripts.Game.GameplayControllers
             if (_isShowing) return;
             _timer += Time.deltaTime;
             
-            if (_timer >= timeToNextQuiz)
+            if (_timer >= _timeToNextQuiz)
             {
-                timeToNextQuiz = Random.Range(0, TimeGapBetweenQuizes);
-                _timer -= timeToNextQuiz;
+                _timeToNextQuiz = Random.Range(0, TimeGapBetweenQuizes);
+                _timer -= _timeToNextQuiz;
                 _isShowing = true;
                 _signal.RegistryRaise(new GameSignals.QuizStarted());
             }

@@ -25,7 +25,7 @@ namespace _project.Scripts.Game.Infrastructure.FSM
 
         public void Enter()
         {
-            ParseGoogleSheet();
+            //ParseGoogleSheet();
             InitializeScenes();
             InitializeClasses();
             _stateMachine.ChangeState<LoadLevelState>();

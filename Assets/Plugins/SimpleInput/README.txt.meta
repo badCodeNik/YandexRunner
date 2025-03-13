@@ -6,10 +6,3 @@ TextScriptImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 113033
-  packageName: Simple Input System
-  packageVersion: 1.1.7
-  assetPath: Assets/Plugins/SimpleInput/README.txt
-  uploadId: 487954

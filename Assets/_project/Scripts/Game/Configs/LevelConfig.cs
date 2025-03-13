@@ -21,7 +21,6 @@ namespace _project.Scripts.Game.Configs
         public override void Initialize()
         {
             AllServices.Container.RegisterSingle(this);
-            obstaclesSettings = new ObstaclesSettings();
         }
     }
 
@@ -30,7 +29,7 @@ namespace _project.Scripts.Game.Configs
     {
         [Range(10, 100)] 
         public int obstaclesHealth;
-        public List<Obstacle> obstaclesToSpawn;
+        public Obstacle[] obstaclesToSpawn;
         public float distanceBeforeFinish;
         public float distanceAfterStart;
     }

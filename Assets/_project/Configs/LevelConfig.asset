@@ -15,7 +15,10 @@ MonoBehaviour:
   LevelHeroSpawnPoint: {fileID: 0}
   plane: {fileID: 0}
   finish: {fileID: 0}
-  levelLength: 90
-  levelWidth: 5.1
-  obstaclesToSpawn: []
+  obstaclesSettings:
+    obstaclesHealth: 0
+    obstaclesToSpawn:
+    - {fileID: 551707348926990228, guid: 5a84b8018fec1684c8d5756708005da4, type: 3}
+    distanceBeforeFinish: 0
+    distanceAfterStart: 0
   numberOfGates: 2

@@ -30,15 +30,13 @@ namespace _project.Scripts.Game.Infrastructure.FSM
             uiRootView.Initialize(signal);
             DontDestroyOnLoad(uiRootView.gameObject);
 
-            IGoogleSheetParser parser = new GoogleParser(signal);
-            var googleSheetsImporter = new GoogleSheetsImporter(parser);
+            //IGoogleSheetParser parser = new GoogleParser(signal);
+            //var googleSheetsImporter = new GoogleSheetsImporter(parser);
             var resourceLoaderService = new ResourceLoaderService();
             
             DependencyRegistry.RegisterDependencies(
                 signal,
                 uiRootView,
-                parser,
-                googleSheetsImporter,
                 resourceLoaderService,
                 cameraController,
                 this

@@ -53,7 +53,8 @@ namespace _project.Scripts.Game.Infrastructure
         private void InitializeAndPlaceObstacles()
         {
             int[] positionsToSpawn = { 60, 80, 19, 10, 20, 27 };
-            for (var index = 0; index < _levelConfig.obstaclesSettings.obstaclesToSpawn.Count; index++)
+            Debug.Log(_levelConfig);
+            for (var index = 0; index < _levelConfig.obstaclesSettings.obstaclesToSpawn.Length; index++)
             {
                 var obstacle = _levelConfig.obstaclesSettings.obstaclesToSpawn[index];
                 Vector3 positionToSpawn;

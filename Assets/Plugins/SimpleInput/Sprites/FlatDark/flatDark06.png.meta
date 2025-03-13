@@ -119,10 +119,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 113033
-  packageName: Simple Input System
-  packageVersion: 1.1.7
-  assetPath: Assets/Plugins/SimpleInput/Sprites/FlatDark/flatDark06.png
-  uploadId: 487954

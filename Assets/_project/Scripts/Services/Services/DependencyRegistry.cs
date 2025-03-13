@@ -11,16 +11,12 @@ namespace _project.Scripts.Services.Services
     {
         public static void RegisterDependencies(Signal signal,
             UIRootView uiRootView,
-            IGoogleSheetParser parser,
-            GoogleSheetsImporter googleSheetsImporter,
             ResourceLoaderService resourceLoaderService,
             CameraController cameraController,
             CompositionRoot compositionRoot)
         {
             AllServices.Container.RegisterSingle(signal);
             AllServices.Container.RegisterSingle(uiRootView);
-            AllServices.Container.RegisterSingle(parser);
-            AllServices.Container.RegisterSingle(googleSheetsImporter);
             AllServices.Container.RegisterSingle(resourceLoaderService);
             AllServices.Container.RegisterSingle(new SceneLoaderService());
             AllServices.Container.RegisterSingle(new GameFactory(resourceLoaderService));
