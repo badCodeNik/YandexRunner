@@ -7,6 +7,7 @@ using _project.Scripts.Game.Obstacles;
 using _project.Scripts.Services;
 using _project.Scripts.Tools;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace _project.Scripts.Game.Infrastructure
 {
@@ -39,8 +40,32 @@ namespace _project.Scripts.Game.Infrastructure
         {
             InitializeAndPlaceFloor();
             InitializeAndPlaceWordFence();
-            InitializeAndPlaceObstacles();
+            InitializeSpawnPlaces();
         }
+
+        private void InitializeSpawnPlaces()
+        {
+            var spawnPlaces = new SpawnPlace[3];
+            int startPos = 10;
+            int rangeLength = 22;
+            int step = 25;
+            var spawnRange = Random.Range(_levelConfig.obstaclesSettings.minObstaclesToSpawnCount, 
+                _levelConfig.obstaclesSettings.maxObstaclesToSpawnCount);
+            for (int i = 0; i < 3; i++)
+            {
+                Range range = new()
+                {
+                    from = startPos + i * step,
+                    to = startPos + i * step + rangeLength
+                };
+                //TODO refactor this to be able to configure number of random spawned obstacles 
+                spawnPlaces[i] = new SpawnPlace(_levelConfig.obstaclesSettings, 
+                    _gameFactory, 
+                    range,
+                    spawnRange / 3);
+            }
+        }
+        
 
         private void InitializeAndPlaceFloor()
         {
@@ -49,34 +74,6 @@ namespace _project.Scripts.Game.Infrastructure
             _levelConfig.LevelHeroSpawnPoint = floor.transform;
             _levelConfig.plane.transform.position = Vector3.zero;
         }
-
-        private void InitializeAndPlaceObstacles()
-        {
-            int[] positionsToSpawn = { 60, 80, 19, 10, 20, 27 };
-            Debug.Log(_levelConfig);
-            for (var index = 0; index < _levelConfig.obstaclesSettings.obstaclesToSpawn.Length; index++)
-            {
-                var obstacle = _levelConfig.obstaclesSettings.obstaclesToSpawn[index];
-                Vector3 positionToSpawn;
-                switch (obstacle.ObstacleSpawnPosition)
-                {
-                    case ObstacleSpawnPosition.Left:
-                        positionToSpawn = new Vector3(-2, 0, positionsToSpawn[index]);
-                        break;
-                    case ObstacleSpawnPosition.Right:
-                        positionToSpawn = new Vector3(2, 0, positionsToSpawn[index]);
-                        break;
-                    case ObstacleSpawnPosition.Middle:
-                        positionToSpawn = new Vector3(0, 0, positionsToSpawn[index]);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-                _gameFactory.CreateGameObjectAtPosition(obstacle.ObstaclePath, positionToSpawn);
-            }
-        }
-
 
         private void InitializeAndPlaceWordFence()
         {
@@ -90,6 +87,8 @@ namespace _project.Scripts.Game.Infrastructure
             gates[0].transform.position = new Vector3(gates[0].transform.position.x, gates[0].transform.position.y, 70);
             gates[1].transform.position = new Vector3(gates[1].transform.position.x, gates[1].transform.position.y, 35);
         }
+
+
 
         private void ActivateTapPanel()
         {
@@ -113,5 +112,11 @@ namespace _project.Scripts.Game.Infrastructure
                 Hero = _hero
             });
         }
+    }
+    
+    public struct Range
+    {
+        public float from;
+        public float to;
     }
 }

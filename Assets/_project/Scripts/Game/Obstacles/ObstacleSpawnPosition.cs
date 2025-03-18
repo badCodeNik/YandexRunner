@@ -1,6 +1,6 @@
 public enum ObstacleSpawnPosition
 {
-    Left,
-    Right,
-    Middle
+    Left = 0,
+    Right = 1,
+    Middle = 2
 }

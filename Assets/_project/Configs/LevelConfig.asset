@@ -16,9 +16,10 @@ MonoBehaviour:
   plane: {fileID: 0}
   finish: {fileID: 0}
   obstaclesSettings:
-    obstaclesHealth: 0
+    obstaclesHealth: 10
     obstaclesToSpawn:
     - {fileID: 551707348926990228, guid: 5a84b8018fec1684c8d5756708005da4, type: 3}
-    distanceBeforeFinish: 0
-    distanceAfterStart: 0
+    distanceBetweenObstacles: 3
+    minObstaclesToSpawnCount: 10
+    maxObstaclesToSpawnCount: 13
   numberOfGates: 2
