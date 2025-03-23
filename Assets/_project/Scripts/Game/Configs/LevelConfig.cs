@@ -8,11 +8,12 @@ namespace _project.Scripts.Game.Configs
     [CreateAssetMenu(fileName = "LevelConfig", menuName = "Configs/LevelConfig")]
     public class LevelConfig : Config
     {
-        public Transform LevelHeroSpawnPoint;
+        public Transform levelHeroSpawnPoint;
         public GameObject plane;
         public GameObject finish;
         public ObstaclesSettings obstaclesSettings;
-
+        public int boostersPerLevel;
+        public int moneyPerLevel;
         
         public int numberOfGates;
 
@@ -30,5 +31,6 @@ namespace _project.Scripts.Game.Configs
         public float distanceBetweenObstacles;
         public int minObstaclesToSpawnCount;
         public int maxObstaclesToSpawnCount;
+        public float moneyPerObstacle;
     }
 }

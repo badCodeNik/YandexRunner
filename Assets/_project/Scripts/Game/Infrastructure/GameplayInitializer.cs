@@ -51,6 +51,8 @@ namespace _project.Scripts.Game.Infrastructure
             int step = 25;
             var spawnRange = Random.Range(_levelConfig.obstaclesSettings.minObstaclesToSpawnCount, 
                 _levelConfig.obstaclesSettings.maxObstaclesToSpawnCount);
+            var sharedHealth = _levelConfig.obstaclesSettings.obstaclesHealth;
+            float[] healthDistribution = { 0.2f, 0.3f, 0.5f }; 
             for (int i = 0; i < 3; i++)
             {
                 Range range = new()
@@ -58,11 +60,14 @@ namespace _project.Scripts.Game.Infrastructure
                     from = startPos + i * step,
                     to = startPos + i * step + rangeLength
                 };
+                
+                int healthForSpawnPlace = (int)(sharedHealth * healthDistribution[i]);
                 //TODO refactor this to be able to configure number of random spawned obstacles 
                 spawnPlaces[i] = new SpawnPlace(_levelConfig.obstaclesSettings, 
                     _gameFactory, 
                     range,
-                    spawnRange / 3);
+                    spawnRange / 3,
+                    healthForSpawnPlace);
             }
         }
         
@@ -71,7 +76,7 @@ namespace _project.Scripts.Game.Infrastructure
         {
             GameObject floor = _gameFactory.CreateGameObject(Constants.Paths.MapPath);
             _levelConfig.plane = floor;
-            _levelConfig.LevelHeroSpawnPoint = floor.transform;
+            _levelConfig.levelHeroSpawnPoint = floor.transform;
             _levelConfig.plane.transform.position = Vector3.zero;
         }
 
@@ -100,10 +105,10 @@ namespace _project.Scripts.Game.Infrastructure
             if (_hero == null)
             {
                 _hero = _gameFactory
-                    .CreateGameObjectAtPosition(Constants.Paths.HeroPath, _levelConfig.LevelHeroSpawnPoint.position)
+                    .CreateGameObjectAtPosition(Constants.Paths.HeroPath, _levelConfig.levelHeroSpawnPoint.position)
                     .GetComponent<Hero>();
             }
-            else _hero.transform.position = _levelConfig.LevelHeroSpawnPoint.position;
+            else _hero.transform.position = _levelConfig.levelHeroSpawnPoint.position;
 
             _hero.Initialize(_signal);
 

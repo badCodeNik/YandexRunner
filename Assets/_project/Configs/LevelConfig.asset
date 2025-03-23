@@ -16,7 +16,7 @@ MonoBehaviour:
   plane: {fileID: 0}
   finish: {fileID: 0}
   obstaclesSettings:
-    obstaclesHealth: 10
+    obstaclesHealth: 100
     obstaclesToSpawn:
     - {fileID: 551707348926990228, guid: 5a84b8018fec1684c8d5756708005da4, type: 3}
     distanceBetweenObstacles: 3

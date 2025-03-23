@@ -1,19 +1,22 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 namespace _project.Scripts.Game.Obstacles
 {
     public abstract class Obstacle : MonoBehaviour
     {
-        [SerializeField] private float health;
+        [SerializeField] private float _health;
+        [SerializeField] private TMP_Text _healthText;
         public abstract string ObstaclePath { get; }
 
-        public float Health => health;
+        public float Health => _health;
 
         public abstract void Activate();
 
-        private void SetHealth(float health)
+        public void SetHealth(float health)
         {
-            this.health = health;
+            _health = health;
+            _healthText.text = health.ToString();
         }
         
         public void TakeDamage(float damage)

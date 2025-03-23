@@ -15,31 +15,49 @@ namespace _project.Scripts.Game.Entities
         private readonly GameFactory _gameFactory;
         private readonly Range _range;
         private readonly int _obstaclesToSpawnCount;
-        [SerializeField] private float _sharedHealth;
+        private int _sharedHealth;
 
 
-        public SpawnPlace(ObstaclesSettings obstaclesSettings, GameFactory gameFactory, Range range, int obstaclesToSpawnCount)
+        public SpawnPlace(ObstaclesSettings obstaclesSettings, GameFactory gameFactory, Range range,
+            int obstaclesToSpawnCount, int healthForSpawnPlace)
         {
             _obstaclesSettings = obstaclesSettings;
             _gameFactory = gameFactory;
             _range = range;
             _obstaclesToSpawnCount = obstaclesToSpawnCount;
-            Debug.Log(obstaclesToSpawnCount);
+            _sharedHealth = healthForSpawnPlace;
             CreateObstacles();
         }
 
-        public void SetSharedHealth(float health)
+        public void SetSharedHealth(int health)
         {
             _sharedHealth = health;
         }
 
         private void CreateObstacles()
         {
-            //TODO make up a formula for sharing health among obstacles
-            for (var index = 0; index < _obstaclesToSpawnCount; index++)
-            {
-                var obstacle = _obstaclesSettings.obstaclesToSpawn[Random.Range(0, _obstaclesSettings.obstaclesToSpawn.Length)];
+            float minHealthPercentage = 0.2f;
+            int minHealthPerObstacle = (int)(_sharedHealth * minHealthPercentage);
+            int obstacleCount = _obstaclesToSpawnCount;
+            int[] obstacleHealths = new int[obstacleCount];
 
+            for (int i = 0; i < obstacleCount; i++)
+            {
+                obstacleHealths[i] = minHealthPerObstacle;
+            }
+
+            int remainingHealth = _sharedHealth - (minHealthPerObstacle * obstacleCount);
+            for (int i = 0; i < remainingHealth; i++)
+            {
+                int randomIndex = Random.Range(0, obstacleCount);
+                obstacleHealths[randomIndex]++;
+            }
+            for (var index = 0; index < obstacleCount; index++)
+            {
+                var obstacle =
+                    _obstaclesSettings.obstaclesToSpawn[Random.Range(0, _obstaclesSettings.obstaclesToSpawn.Length)];
+                obstacle.SetHealth(obstacleHealths[index]);
+                Debug.Log(obstacleHealths[index]);
                 float randomZ = Random.Range(_range.from, _range.to);
 
                 var spawnPosition = Random.Range(0, 3);
